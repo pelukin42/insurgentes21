@@ -2,10 +2,12 @@ export const ACCENT = "#F0603A";
 export const IG = "https://www.instagram.com/insurgentes_21/";
 const p = (s: string) => `/img/${s}`;
 
+const v = (n: string) => ({ video: `/video/${n}.mp4`, poster: `/video/${n}.jpg` });
 export const heroSlides = [
-  p("fachada/fachada-01_DZLCR0Mlf6c.jpg"),
-  p("ambiente/ambiente-01_DaWDQapEcmY.jpg"),
-  p("platos/platos-03_DZ79V3SCVWk.jpg"),
+  v("insurgentes21_hero_01_final"),
+  v("insurgentes21_hero_02_final"),
+  v("insurgentes21_hero_04"),
+  v("insurgentes21_hero_05"),
 ];
 
 export const gallery = [

@@ -29,6 +29,16 @@ export default function Hero() {
         el.style.clipPath = clip(p);
         el.style.visibility = local <= 0 ? "hidden" : "visible";
       });
+      // play only what can be seen: a slide is visible once revealed and until the next one fully covers it
+      slides.current.forEach((el, i) => {
+        const vid = el?.querySelector("video");
+        if (!vid) return;
+        const revealed = i === 0 || scrolled > (i - 1) * per;
+        const covered = i < slides.current.length - 1 && scrolled >= i * per + per;
+        const show = revealed && !covered && scrolled < window.innerHeight + (slides.current.length - 1) * per;
+        if (show && vid.paused) vid.play().catch(() => {});
+        else if (!show && !vid.paused) vid.pause();
+      });
     };
     const on = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(update); };
     update();
@@ -40,10 +50,11 @@ export default function Hero() {
   return (
     <div id="top" ref={wrap} style={{ height: `calc(100vh + ${(heroSlides.length - 1) * SCROLL_PER_SLIDE_VH}vh)` }}>
       <section className="sticky top-0 w-full h-screen overflow-hidden">
-        {heroSlides.map((src, i) => (
-          <div key={src} ref={(el) => (slides.current[i] = el)} className="absolute inset-0"
+        {heroSlides.map((s, i) => (
+          <div key={s.video} ref={(el) => (slides.current[i] = el)} className="absolute inset-0"
             style={{ zIndex: i, clipPath: i === 0 ? undefined : clip(0), visibility: i === 0 ? "visible" : "hidden" }}>
-            <img src={src} alt="" className="w-full h-full object-cover scale-105 animate-in zoom-in-110 duration-[8000ms]" />
+            <video className="w-full h-full object-cover" src={s.video} poster={s.poster}
+              autoPlay={i === 0} loop muted playsInline preload={i === 0 ? "auto" : "metadata"} />
             <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/10 to-black/70" />
           </div>
         ))}
