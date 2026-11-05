@@ -1,12 +1,13 @@
 """Build a single self-contained HTML preview (images/videos inlined, compressed).
 
-Usage: npm run build && python3 scripts/preview.py <out.html> <workdir>
+Usage: npm run build && python3 scripts/preview.py <out.html> <workdir> [--light]
 Requires ImageMagick (convert) and ffmpeg.
 """
 import base64, glob, os, re, subprocess, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 out, work = sys.argv[1], sys.argv[2]
+LIGHT = "--light" in sys.argv  # smaller assets for inline viewers
 os.makedirs(work, exist_ok=True)
 
 src = "".join(open(f).read() for f in glob.glob(f"{ROOT}/src/**/*.ts*", recursive=True))
@@ -20,10 +21,10 @@ def shrink(path):
     dst = os.path.join(work, path.strip("/").replace("/", "__"))
     if not os.path.exists(dst):
         if path.endswith(".mp4"):
-            subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", srcf, "-vf", "scale=540:-2", "-c:v", "libx264",
-                            "-crf", "30", "-preset", "slow", "-an", "-movflags", "+faststart", dst], check=True)
+            subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", srcf, "-vf", "scale=360:-2" if LIGHT else "scale=540:-2", "-c:v", "libx264",
+                            "-crf", "34" if LIGHT else "30", "-preset", "slow", "-an", "-movflags", "+faststart", dst], check=True)
         elif path.endswith(".jpg"):
-            subprocess.run(["convert", srcf, "-resize", "1100x1100>", "-quality", "70", "-strip", dst], check=True)
+            subprocess.run(["convert", srcf, "-resize", "800x800>" if LIGHT else "1100x1100>", "-quality", "60" if LIGHT else "70", "-strip", dst], check=True)
         else:
             dst = srcf
     return dst
