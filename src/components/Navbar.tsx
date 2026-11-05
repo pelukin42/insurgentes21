@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ChevronDown, Menu, X, MapPin } from "lucide-react";
-import { Logo } from "./Logo";
+import { LogoMark } from "./Logo";
 import { menu } from "../data";
 
 type Item = { label: string; href: string; items: string[] };
@@ -41,7 +41,7 @@ export default function Navbar() {
         <button className="lg:hidden text-white" onClick={() => setOpen(true)} aria-label="Abrir menú"><Menu /></button>
         <div className="flex-1 lg:flex-none flex items-center justify-center gap-10">
           <div className="hidden lg:flex gap-8">{menu.left.map((m) => <Dropdown key={m.label} item={m} />)}</div>
-          <a href="#top"><Logo className={`transition-all ${scrolled ? "h-[32px] md:h-[40px]" : "h-[40px] md:h-[56px]"}`} /></a>
+          <a href="#top"><LogoMark className={`transition-all duration-300 ${scrolled ? "h-[24px] md:h-[32px]" : "h-[32px] md:h-[48px]"}`} /></a>
           <div className="hidden lg:flex gap-8">{menu.right.map((m) => <Dropdown key={m.label} item={m} />)}</div>
         </div>
         <div className="flex-1 flex justify-end gap-1">
@@ -54,7 +54,7 @@ export default function Navbar() {
       {open && (
         <div className="fixed inset-0 z-[60] bg-black/95 backdrop-blur-md p-6 overflow-y-auto">
           <div className="flex justify-between items-center mb-10">
-            <Logo className="h-10" />
+            <LogoMark className="h-10" />
             <button onClick={() => setOpen(false)} className="text-white" aria-label="Cerrar"><X /></button>
           </div>
           {[...menu.left, ...menu.right].map((m) => (
