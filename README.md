@@ -1,5 +1,8 @@
 # Insurgentes 21 — sitio web
 
+**Ver el sitio rápido:** descargá [`vista-previa.html`](vista-previa.html) (botón *Download raw file*)
+y abrilo con doble clic en Chrome o Safari. Incluye videos y fotos; se ve completo sin instalar nada.
+
 Landing page de Insurgentes 21 (Avenida Escazú, Plaza 300, Costa Rica).
 React 18 + Vite + TypeScript + Tailwind + GSAP (ScrollTrigger, SplitText).
 
