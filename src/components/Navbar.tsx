@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
 import { ChevronDown, Menu, X, MapPin } from "lucide-react";
 import { LogoMark } from "./Logo";
-import { menu } from "../data";
+import { menu, type NavItem } from "../data";
 
-type Item = { label: string; href: string; items: string[] };
 
-const Dropdown = ({ item }: { item: Item }) => (
+const ext = (h: string) => (h.startsWith("http") ? { target: "_blank", rel: "noreferrer" } : {});
+
+const Dropdown = ({ item }: { item: NavItem }) => (
   <div className="relative group">
-    <a href={item.href} className="flex items-center gap-1 text-[14px] text-white hover:text-[#F0603A] transition-colors py-2">
+    <a href={item.href} className="flex items-center gap-1 text-[14px] text-white hover:text-[#EF5C32] transition-colors py-2">
       {item.label} <ChevronDown className="w-3.5 h-3.5" />
     </a>
     <div className="absolute left-1/2 -translate-x-1/2 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
       <ul className="bg-white shadow-lg py-2 min-w-[220px]">
         {item.items.map((s) => (
-          <li key={s}><a href={item.href} className="block px-4 py-2.5 text-[13px] text-black hover:bg-[#F0603A] hover:text-white">{s}</a></li>
+          <li key={s.label}><a href={s.href} {...ext(s.href)} className="block px-4 py-2.5 text-[13px] text-black hover:bg-[#EF5C32] hover:text-white">{s.label}</a></li>
         ))}
       </ul>
     </div>
@@ -36,7 +37,7 @@ export default function Navbar() {
     <>
       <nav className={`fixed top-0 left-0 right-0 z-20 flex items-center px-4 md:px-10 transition-all duration-300 ${scrolled ? "bg-black/90 backdrop-blur-[80px] shadow-md py-2" : "bg-transparent py-4"}`}>
         <div className="flex-1 hidden lg:flex items-center gap-2 text-white text-[13px]">
-          <MapPin className="w-4 h-4" /> Insurgentes 21
+          <MapPin className="w-4 h-4" /> Escazú, Costa Rica
         </div>
         <button className="lg:hidden text-white" onClick={() => setOpen(true)} aria-label="Abrir menú"><Menu /></button>
         <div className="flex-1 lg:flex-none flex items-center justify-center gap-10">
@@ -46,7 +47,7 @@ export default function Navbar() {
         </div>
         <div className="flex-1 flex justify-end gap-1">
           {(["ES", "EN"] as const).map((l) => (
-            <button key={l} onClick={() => setLang(l)} className={`px-2 py-1 text-[12px] ${lang === l ? "bg-[#F0603A] text-white" : "text-white hover:text-[#F0603A]"}`}>{l}</button>
+            <button key={l} onClick={() => setLang(l)} className={`px-2 py-1 text-[12px] ${lang === l ? "bg-[#EF5C32] text-white" : "text-white hover:text-[#EF5C32]"}`}>{l}</button>
           ))}
         </div>
       </nav>
@@ -64,7 +65,7 @@ export default function Navbar() {
               </button>
               {acc === m.label && (
                 <ul className="pb-4">{m.items.map((s) => (
-                  <li key={s}><a href={m.href} onClick={() => setOpen(false)} className="block py-2 text-white/70 hover:text-[#F0603A]">{s}</a></li>
+                  <li key={s.label}><a href={s.href} {...ext(s.href)} onClick={() => setOpen(false)} className="block py-2 text-white/70 hover:text-[#EF5C32]">{s.label}</a></li>
                 ))}</ul>
               )}
             </div>

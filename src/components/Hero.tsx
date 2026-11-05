@@ -61,10 +61,10 @@ export default function Hero() {
 
         <p ref={sub} className="invisible absolute inset-x-0 top-0 z-10 text-center font-luxurious text-[12vw] md:text-[3.4vw] text-white"
           style={{ paddingTop: "calc(80px + 60px)" }}>
-          cocina &amp; coctelería
+          cocina mexicana, a otro nivel
         </p>
         <h1 ref={h1} className="invisible absolute z-10 inset-x-0 px-4 md:px-0 bottom-[48px] md:bottom-[-2vw] font-accent text-white text-[56px] leading-[1.05] whitespace-normal text-center md:text-[15vw] md:leading-[1] md:whitespace-nowrap tracking-[-0.04em]">
-          INSURGENTES 21
+          INSURGENTES<sup className="text-[#EF5C32] text-[0.32em] align-[1.6em] ml-[0.05em] tracking-normal">21</sup>
         </h1>
       </section>
     </div>

@@ -13,7 +13,7 @@ export default function Gallery() {
   }, { scope: ref });
 
   return (
-    <section id="menu" className="bg-white py-12 md:py-24 flex justify-center">
+    <section id="menu" className="bg-[#EDE5D6] py-12 md:py-24 flex justify-center">
       <div ref={ref} className="w-[90%] md:w-[70%] lg:w-[65%]">
         <div className="grid grid-cols-1 min-[400px]:grid-cols-2 min-[1000px]:grid-cols-4 gap-x-0 gap-y-10">
           {gallery.map((g, i) => (

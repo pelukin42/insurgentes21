@@ -16,7 +16,7 @@ export default {
         primary: { DEFAULT: "hsl(var(--primary))", foreground: "hsl(var(--primary-foreground))" },
         muted: { DEFAULT: "hsl(var(--muted))", foreground: "hsl(var(--muted-foreground))" },
         border: "hsl(var(--border))",
-        brand: { green: "#4A5338", orange: "#F0603A" },
+        brand: { green: "#454F36", orange: "#EF5C32" },
       },
       borderRadius: { DEFAULT: "var(--radius)" },
       keyframes: { marquee: { from: { transform: "translateX(0)" }, to: { transform: "translateX(-50%)" } } },
