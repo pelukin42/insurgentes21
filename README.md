@@ -17,3 +17,8 @@ npm run build    # producción en dist/
 
 Pendiente de confirmar con el restaurante: precios vigentes (no se publican), logo vectorial
 original, fuentes oficiales y carta nueva de coctelería.
+
+## Publicación (GitHub Pages)
+
+Cada push a `main` publica el sitio con `.github/workflows/pages.yml` en
+https://pelukin42.github.io/insurgentes21/ — requiere *Settings → Pages → Source: GitHub Actions*.
