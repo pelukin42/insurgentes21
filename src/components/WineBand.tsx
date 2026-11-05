@@ -1,3 +1,4 @@
+import { asset } from "../asset";
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -14,7 +15,7 @@ export default function WineBand() {
 
   return (
     <section id="vinos" ref={ref} className="relative h-[80vh] md:h-[110vh] overflow-hidden flex items-center justify-center">
-      <img src="/img/vinos/vinos-01_DXNTA5WD_Tl.jpg" alt="" className="w-img absolute inset-0 w-full h-full object-cover" />
+      <img src={asset("/img/vinos/vinos-01_DXNTA5WD_Tl.jpg")} alt="" className="w-img absolute inset-0 w-full h-full object-cover" />
       <div className="absolute inset-0 bg-black/55" />
       <div className="w-txt relative z-10 text-center px-6 max-w-[900px]">
         <p className="font-body text-[11px] tracking-[0.35em] uppercase text-[#B08A5B] mb-8">La Cava · Más de 70 etiquetas</p>

@@ -1,3 +1,4 @@
+import { asset } from "../asset";
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -17,7 +18,7 @@ export default function Visit() {
   return (
     <section id="visitanos" ref={ref} className="bg-[#EDE5D6] text-black grid md:grid-cols-2 min-h-screen">
       <div className="v-mask relative h-[70vh] md:h-auto overflow-hidden">
-        <img src="/img/fachada/fachada-02_DW4Ng9KCVP_.jpg" alt="Fachada de Insurgentes 21" className="absolute inset-0 w-full h-full object-cover" />
+        <img src={asset("/img/fachada/fachada-02_DW4Ng9KCVP_.jpg")} alt="Fachada de Insurgentes 21" className="absolute inset-0 w-full h-full object-cover" />
       </div>
       <div className="v-copy flex flex-col justify-center px-6 md:pl-[8%] md:pr-[9%] py-20">
         <p className="v-line font-body text-[11px] tracking-[0.35em] uppercase text-[#B08A5B] mb-6">Visitanos</p>

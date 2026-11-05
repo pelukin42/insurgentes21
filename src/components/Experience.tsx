@@ -1,3 +1,4 @@
+import { asset } from "../asset";
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -24,7 +25,7 @@ export default function Experience() {
 
   return (
     <section id="experiencia" ref={ref} className="relative min-h-[90vh] flex flex-col items-center justify-center py-24 overflow-hidden">
-      <img src="/img/ambiente/ambiente-05_DWjnI2ljcjb.jpg" alt="" className="absolute inset-0 w-full h-full object-cover" />
+      <img src={asset("/img/ambiente/ambiente-05_DWjnI2ljcjb.jpg")} alt="" className="absolute inset-0 w-full h-full object-cover" />
       <div className="absolute inset-0 bg-black/55" />
       <div className="relative z-10 flex flex-col items-center w-full">
         <h2 ref={title} className="invisible font-accent uppercase text-[28px] md:text-[48px] leading-[1.4] text-primary text-center px-4 mb-10">La experiencia</h2>

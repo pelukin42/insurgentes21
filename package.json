@@ -3,7 +3,12 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "scripts": { "dev": "vite", "build": "tsc -b && vite build", "preview": "vite preview" },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "preview:file": "vite build && python3 scripts/preview.py insurgentes21-preview.html .preview-cache"
+  },
   "dependencies": {
     "@gsap/react": "^2.1.2",
     "clsx": "^2.1.1",

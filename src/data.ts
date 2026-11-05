@@ -1,9 +1,10 @@
+import { asset } from "./asset";
 /**
  * Content for the site. Business facts come from the brand dossier
  * (Instagram @insurgentes_21 + OpenTable, Nov 2026). Prices are intentionally
  * not published until the restaurant confirms the current menu.
  */
-const p = (s: string) => `/img/${s}`;
+const p = (s: string) => asset(`/img/${s}`);
 
 export const BRAND = {
   orange: "#EF5C32",
@@ -29,7 +30,7 @@ export const INFO = {
 };
 export const IG = INFO.instagram;
 
-const v = (n: string) => ({ video: `/video/${n}.mp4`, poster: `/video/${n}.jpg` });
+const v = (n: string) => ({ video: asset(`/video/${n}.mp4`), poster: asset(`/video/${n}.jpg`) });
 export const heroSlides = [
   v("insurgentes21_hero_01_final"),
   v("insurgentes21_hero_02_final"),
