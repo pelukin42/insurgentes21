@@ -9,11 +9,13 @@ import Carta from "./components/Carta";
 import Cocteleria from "./components/Cocteleria";
 import WineBand from "./components/WineBand";
 import Visit from "./components/Visit";
+import Eventos from "./components/Eventos";
+import FullMenu from "./components/FullMenu";
 
 export default function App() {
   return (
     <main>
-      <Navbar /><FloatingNav /><Hero /><Gallery /><About /><Carta /><Cocteleria /><WineBand /><Experience /><Visit /><Footer />
+      <Navbar /><FloatingNav /><Hero /><Gallery /><About /><Carta /><Cocteleria /><WineBand /><Eventos /><Experience /><Visit /><Footer /><FullMenu />
       <div className="grain" aria-hidden />
     </main>
   );

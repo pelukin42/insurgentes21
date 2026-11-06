@@ -12,11 +12,15 @@ npm run dev      # desarrollo
 npm run build    # producción en dist/
 ```
 
-- Contenido y datos del negocio: `src/data.ts`
+- Contenido y datos del negocio: `src/data.ts` (textos en `["español", "English"]`)
+- Próximos eventos: agregalos en `upcoming` dentro de `src/data.ts` (se ocultan solos al pasar la fecha)
+- Carta completa (precios): `src/menuData.ts` · PDF descargable: `public/menu/menu-insurgentes21.pdf`
+- Idioma: botón ES/EN en la barra; se recuerda por visitante y también acepta `?lang=en`
 - Fotos: `public/img/` · Videos del inicio: `public/video/` · Logo: `public/logo.svg`, `public/logo-mark.svg`
 
-Pendiente de confirmar con el restaurante: precios vigentes (no se publican), logo vectorial
-original, fuentes oficiales y carta nueva de coctelería.
+Pendiente de confirmar con el restaurante: logo vectorial original, fuentes oficiales,
+carta de coctelería y vinos, y fechas de próximos eventos. La carta y el PDF se tomaron de
+insurgentes21.com (nov. 2026).
 
 ## Publicación (GitHub Pages)
 

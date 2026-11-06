@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { heroSlides } from "../data";
 import { useSplitChars } from "../useSplitChars";
+import { useLang } from "../i18n";
 
 const SCROLL_PER_SLIDE_VH = 150;
 const ease = (p: number) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
@@ -12,6 +13,7 @@ export default function Hero() {
   const h1 = useRef<HTMLHeadingElement>(null);
   const sub = useRef<HTMLParagraphElement>(null);
   const [h1Done, setH1Done] = useState(false);
+  const { t, lang } = useLang();
 
   useSplitChars(h1, { delay: 0.2, onComplete: () => setH1Done(true) });
   useSplitChars(sub, { enabled: h1Done, charsClass: "split-char font-luxurious" });
@@ -59,9 +61,9 @@ export default function Hero() {
           </div>
         ))}
 
-        <p ref={sub} className="invisible absolute inset-x-0 top-0 z-10 text-center font-luxurious text-[12vw] md:text-[3.4vw] text-white"
+        <p key={lang} ref={sub} className="invisible absolute inset-x-0 top-0 z-10 text-center font-luxurious text-[12vw] md:text-[3.4vw] text-white"
           style={{ paddingTop: "calc(80px + 60px)" }}>
-          cocina mexicana, a otro nivel
+          {t(["cocina mexicana, a otro nivel", "Mexican cuisine, elevated"])}
         </p>
         <h1 ref={h1} className="invisible absolute z-10 inset-x-0 px-4 md:px-0 bottom-[48px] md:bottom-[-2vw] font-accent text-white text-[56px] leading-[1.05] whitespace-normal text-center md:text-[15vw] md:leading-[1] md:whitespace-nowrap tracking-[-0.04em]">
           INSURGENTES<sup className="text-[#EF5C32] text-[0.32em] align-[1.6em] ml-[0.05em] tracking-normal">21</sup>

@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { RefObject } from "react";
+import { useLang } from "./i18n";
 gsap.registerPlugin(SplitText, ScrollTrigger, useGSAP);
 
 /** Per-char reveal: {opacity:0,y:40} -> {opacity:1,y:0}, 0.8s, 30ms stagger, power3.out */
@@ -10,6 +11,7 @@ export function useSplitChars(
   ref: RefObject<HTMLElement>,
   opts: { charsClass?: string; delay?: number; scroll?: boolean; onComplete?: () => void; enabled?: boolean } = {},
 ) {
+  const { lang } = useLang(); // headings are re-keyed by language, so split again
   useGSAP(() => {
     if (!ref.current || opts.enabled === false) return;
     gsap.set(ref.current, { visibility: "visible" });
@@ -20,5 +22,5 @@ export function useSplitChars(
       scrollTrigger: opts.scroll ? { trigger: ref.current, start: "top 85%", once: true } : undefined,
     });
     return () => split.revert();
-  }, { dependencies: [opts.enabled], scope: ref });
+  }, { dependencies: [opts.enabled, lang], scope: ref });
 }
