@@ -1,0 +1,48 @@
+Hola Carlos, ¿cómo estás?
+
+Te escribo porque estoy instalando el CRM Omnicanal para un restaurante en Escazú (Insurgentes 21), en un servidor aparte del mío, con Coolify. Ya está corriendo bien (versión 1.2.1). Antes de seguir quiero confirmar contigo algunos temas y proponerte una mejora que creo que te puede servir para vender el CRM a restaurantes.
+
+1) LICENCIA
+- ¿Puedo instalar el CRM para mis clientes (una instalación por cliente)?
+- ¿Tiene algún costo por instalación o mensualidad para ti?
+- Las imágenes de ghcr.io/carlos-dominguez-faber/... ¿van a seguir públicas o necesito un acceso para cada servidor nuevo?
+
+2) PERFIL INICIAL
+La instalación arrancó con SEED_PROFILE=dental-mx (contenido de clínica dental). ¿Existe un perfil vacío o uno para restaurante? Si no, ¿qué valor uso para que arranque limpio?
+
+3) EL PROBLEMA: RESERVAS DE RESTAURANTE
+La Agenda del CRM está pensada para citas una detrás de otra (servicio + duración, sin citas encimadas). En un restaurante hay muchas reservas a la misma hora en mesas distintas, y lo que importa es:
+- cantidad de personas
+- mesa (y mesas que se unen para grupos)
+- duración según el tamaño del grupo
+- reglas: hasta 6 personas se confirma solo; de 7 a 15 queda apartado y el encargado aprueba; más de 15 es evento privado
+- estados: confirmada, por aprobar, llegó, no vino, cancelada
+- recordatorios 24 h y 3 h antes, y pedir reseña después de la visita
+- reporte: reservas y comensales que entraron fuera de horario (es lo que justifica el CRM ante el dueño)
+
+Para el piloto ya desarrollé esa lógica como un módulo aparte (Node.js, sin dependencias, con API). Sofía lo usa con 4 herramientas del CRM (Admin → Herramientas, por webhook con X-Omnicanal-Token): consultar_disponibilidad, crear_reserva, buscar_reservas y cancelar_reserva. Funciona, pero el equipo del restaurante tiene que ver las reservas en otra pantalla y quiere TODO dentro del CRM.
+
+4) LO QUE TE PROPONGO (cualquiera de estas, en orden de preferencia)
+
+  A. Módulo "Reservas" dentro del CRM (modo restaurante)
+     Un tipo de agenda que reemplace "Agenda" por "Reservas" cuando el negocio es restaurante: varias reservas a la misma hora, campo de personas, mesa asignada, estados de arriba y vista por mesas. Te paso la lógica, las reglas y las pruebas que ya tengo, para que no empieces de cero.
+
+  B. Que la Agenda acepte reservas externas
+     Una API (con token de agente) para crear, actualizar y cancelar citas con:
+       - capacidad o varias citas simultáneas (sin bloqueo por "encima de otra cita")
+       - campos personalizados: personas, mesa, código, estado
+     Así mi módulo escribe cada reserva en la Agenda del CRM y el equipo la ve ahí.
+
+  C. Enlace externo en el menú
+     Poder agregar en el menú lateral un elemento "Reservas" que abra una URL externa (idealmente dentro del CRM, en un iframe permitido para un dominio configurado). Hoy el panel tiene frame-ancestors 'none', así que no se puede incrustar.
+
+5) DOCUMENTACIÓN QUE ME SERVIRÍA
+- Documentación de la API pública / tokens de agente (Admin → Conexiones → Tokens) y del endpoint /mcp.
+- El formato exacto del cuerpo que el CRM manda a las Herramientas (n8n): nombre de los campos, si incluye el teléfono del contacto, el canal y el id de la conversación.
+- Si hay forma de que una herramienta deje una nota o una etiqueta en el contacto.
+
+Si te interesa la opción A, con gusto hacemos una llamada y te muestro el módulo funcionando: tiene panel, vista de mesas, página pública de reservas y reporte de ROI.
+
+Gracias,
+Jose Mario
+AxelSites · axelsites.com · WhatsApp +506 6316-4765

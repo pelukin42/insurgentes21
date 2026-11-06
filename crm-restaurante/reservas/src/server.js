@@ -11,7 +11,7 @@ import { crearNotificador } from "./notificador.js";
 const AQUI = dirname(fileURLToPath(import.meta.url));
 const PUBLICO = join(AQUI, "..", "public");
 
-export function crearApp({ config, db, apiKey, reloj, tokensCRM = [] }) {
+export function crearApp({ config, db, apiKey, reloj, tokensCRM = [], crmUrl = "" }) {
   const motor = crearMotor({ db, config, reloj });
   const tokens = tokensCRM.filter(Boolean).map((t) => Buffer.from(t));
   function tokenCRM(req) {
@@ -21,6 +21,8 @@ export function crearApp({ config, db, apiKey, reloj, tokensCRM = [] }) {
   const estaticos = {
     "/panel": ["panel.html", "text/html; charset=utf-8"],
     "/reservar": ["reservar.html", "text/html; charset=utf-8"],
+    "/manifest.webmanifest": ["manifest.webmanifest", "application/manifest+json"],
+    "/icono.svg": ["icono.svg", "image/svg+xml"],
   };
   const limites = new Map(); // ip -> [timestamps]
 
@@ -85,6 +87,7 @@ export function crearApp({ config, db, apiKey, reloj, tokensCRM = [] }) {
             autoConfirmarHasta: config.reglas.autoConfirmarHasta,
             grupoHasta: config.reglas.grupoHasta,
             diasMaximosAdelante: config.reglas.diasMaximosAdelante,
+            crmUrl: crmUrl || null,
           }, true);
         if (ruta === "/public/disponibilidad" && req.method === "GET")
           return enviar(res, 200, motor.disponibilidad(q.fecha, q.personas), true);
@@ -129,6 +132,8 @@ export function crearApp({ config, db, apiKey, reloj, tokensCRM = [] }) {
         if (q.fecha) return enviar(res, 200, { reservas: motor.delDia(q.fecha) });
         return enviar(res, 400, { error: "FALTA_FILTRO", mensaje: "Usá ?fecha=AAAA-MM-DD o ?telefono=..." });
       }
+      if (ruta === "/api/mesas" && req.method === "GET")
+        return enviar(res, 200, { mesas: config.mesas.map(({ id, zona, min, max }) => ({ id, zona, min, max })), horario: config.horario });
       if (ruta === "/api/reservas/pendientes" && req.method === "GET")
         return enviar(res, 200, { reservas: motor.pendientes() });
       let m = /^\/api\/reservas\/([A-Za-z0-9]+)$/.exec(ruta);
@@ -263,7 +268,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   }
   const db = abrirDB(process.env.DB_PATH || join(AQUI, "..", "datos", "reservas.db"));
   const tokensCRM = (process.env.CRM_TOKENS || "").split(",").map((t) => t.trim());
-  const { manejar, motor } = crearApp({ config, db, apiKey, tokensCRM });
+  const { manejar, motor } = crearApp({ config, db, apiKey, tokensCRM, crmUrl: (process.env.CRM_URL || "").replace(/\/+$/, "") });
   const notif = crearNotificador({ db, url: process.env.WEBHOOK_URL, secreto: process.env.WEBHOOK_SECRET });
   const ciclo = async () => { try { motor.tic(); await notif.enviarPendientes(); } catch (e) { console.error(e); } };
   setInterval(ciclo, 60000);
