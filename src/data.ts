@@ -60,7 +60,7 @@ export const menu: { left: NavItem[]; right: NavItem[] } = {
     { label: ["Nosotros", "About"], href: "#nosotros", items: [
       { label: ["Nuestra cocina", "Our kitchen"], href: "#nosotros" },
       { label: ["La experiencia", "The experience"], href: "#experiencia" },
-      { label: ["Salón VIP", "VIP room"], href: "#eventos" },
+      { label: ["Reseñas", "Reviews"], href: "#resenas" },
     ] },
     { label: ["Menú", "Menu"], href: "#carta", items: [
       { label: ["Carta completa", "Full menu"], href: "#carta-completa" },
@@ -78,10 +78,10 @@ export const menu: { left: NavItem[]; right: NavItem[] } = {
     ] },
     { label: ["Reservá", "Book"], href: "#visitanos", items: [
       { label: ["Reservar en OpenTable", "Book on OpenTable"], href: INFO.opentable },
+      { label: ["Salón VIP y eventos privados", "VIP room & private events"], href: "#privados" },
       { label: "WhatsApp", href: INFO.whatsapp },
       { label: ["Cómo llegar", "Directions"], href: INFO.maps },
       { label: "Instagram", href: INFO.instagram },
-      { label: ["Dejá tu reseña", "Leave a review"], href: "#resenas" },
     ] },
   ],
 };
