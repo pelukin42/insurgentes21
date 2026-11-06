@@ -26,3 +26,10 @@ insurgentes21.com (nov. 2026).
 
 Cada push a `main` publica el sitio con `.github/workflows/pages.yml` en
 https://pelukin42.github.io/insurgentes21/ — requiere *Settings → Pages → Source: GitHub Actions*.
+
+## Reseñas y Google
+
+- Sección *Reseñas* (`src/components/Resenas.tsx`): pegá reseñas reales en `reviews` (`src/data.ts`) y se muestran en carrusel; nunca inventarlas.
+- Enlace corto para pedir reseñas: `/resena/` (abre el formulario de Google). Ideal para WhatsApp y correos post-visita.
+- Tarjeta de mesa con QR (ES/EN, 10 × 15 cm): `public/resena/tarjeta-resena.pdf` — se regenera con `node scripts/qr-card.cjs`.
+- `index.html` lleva datos estructurados `Restaurant` (schema.org) para Google; actualizar `url` y `menu` al pasar a dominio propio.

@@ -1,4 +1,4 @@
-import { Instagram, MessageCircle, MapPin, FileDown } from "lucide-react";
+import { Instagram, MessageCircle, MapPin, FileDown, Star } from "lucide-react";
 import { INFO } from "../data";
 import { Logo } from "./Logo";
 import { useLang } from "../i18n";
@@ -31,6 +31,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li><a href={INFO.instagram} {...ext} className={`${L} inline-flex items-center gap-2`}><Instagram className="w-4 h-4" /> Instagram</a></li>
               <li><a href={INFO.menuPdf} {...ext} className={`${L} inline-flex items-center gap-2`}><FileDown className="w-4 h-4" /> {t(["Menú (PDF)", "Menu (PDF)"])}</a></li>
+              <li><a href={INFO.googleReview} {...ext} className={`${L} inline-flex items-center gap-2`}><Star className="w-4 h-4" /> {t(["Dejá tu reseña", "Leave a review"])}</a></li>
               <li><a href={INFO.whatsapp} {...ext} className={`${L} inline-flex items-center gap-2`}><MessageCircle className="w-4 h-4" /> WhatsApp</a></li>
               <li><a href={INFO.maps} {...ext} className={`${L} inline-flex items-center gap-2`}><MapPin className="w-4 h-4" /> {t(["Cómo llegar", "Directions"])}</a></li>
             </ul>

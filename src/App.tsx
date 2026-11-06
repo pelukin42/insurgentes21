@@ -11,11 +11,12 @@ import WineBand from "./components/WineBand";
 import Visit from "./components/Visit";
 import Eventos from "./components/Eventos";
 import FullMenu from "./components/FullMenu";
+import Resenas from "./components/Resenas";
 
 export default function App() {
   return (
     <main>
-      <Navbar /><FloatingNav /><Hero /><Gallery /><About /><Carta /><Cocteleria /><WineBand /><Eventos /><Experience /><Visit /><Footer /><FullMenu />
+      <Navbar /><FloatingNav /><Hero /><Gallery /><About /><Carta /><Cocteleria /><WineBand /><Eventos /><Experience /><Resenas /><Visit /><Footer /><FullMenu />
       <div className="grain" aria-hidden />
     </main>
   );

@@ -23,6 +23,9 @@ export const INFO = {
   maps: "https://maps.app.goo.gl/eSsCXKzh5Vwb2xMC8",
   waze: "https://waze.com/ul?ll=9.93646,-84.14368&navigate=yes",
   opentable: "https://www.opentable.com.au/r/insurgentes-21-san-rafael-de-escazu",
+  googlePlaceId: "ChIJbTNk4M_9oI8RBYgHPz81aUM",
+  googleReview: "https://search.google.com/local/writereview?placeid=ChIJbTNk4M_9oI8RBYgHPz81aUM",
+  googleReviews: "https://search.google.com/local/reviews?placeid=ChIJbTNk4M_9oI8RBYgHPz81aUM",
   menuPdf: asset(["", "menu", "menu-insurgentes21.pdf"].join("/")),
   hours: [
     [["Lunes a jueves", "Monday – Thursday"], ["12:00 m.d. – 10:00 p.m.", "12 pm – 10 pm"]],
@@ -78,6 +81,7 @@ export const menu: { left: NavItem[]; right: NavItem[] } = {
       { label: "WhatsApp", href: INFO.whatsapp },
       { label: ["Cómo llegar", "Directions"], href: INFO.maps },
       { label: "Instagram", href: INFO.instagram },
+      { label: ["Dejá tu reseña", "Leave a review"], href: "#resenas" },
     ] },
   ],
 };
@@ -141,4 +145,17 @@ export const recurring: { when: T; title: T; desc: T; img: string; cta: T; href:
     img: p("platos/platos-17_De2Jtd7jvjU.jpg"),
     cta: ["Ver especiales", "See the specials"], href: "#carta-completa",
   },
+];
+
+/**
+ * Real guest reviews, copied by hand from Google / OpenTable / TripAdvisor
+ * (never invent them). The quote carousel only shows when this has entries, e.g.:
+ *   { quote: "El short rib es de otro planeta…", author: "María G.", source: "Google", stars: 5 },
+ */
+export type Review = { quote: string; author: string; source: "Google" | "OpenTable" | "TripAdvisor"; stars: number };
+export const reviews: Review[] = [];
+
+/** Rating badges. Only list numbers that are current on the platform. */
+export const ratings: { source: string; score: string; count: T; href: string }[] = [
+  { source: "OpenTable", score: "4,7", count: ["147 reseñas", "147 reviews"], href: INFO.opentable },
 ];
