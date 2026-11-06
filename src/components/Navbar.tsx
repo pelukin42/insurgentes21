@@ -59,7 +59,7 @@ export default function Navbar() {
       </nav>
 
       {open && (
-        <div className="fixed inset-0 z-[60] bg-black/95 backdrop-blur-md p-6 overflow-y-auto">
+        <div data-area="menu_movil" className="fixed inset-0 z-[60] bg-black/95 backdrop-blur-md p-6 overflow-y-auto">
           <div className="flex justify-between items-center mb-10">
             <LogoMark className="h-10" />
             <button onClick={() => setOpen(false)} className="text-white" aria-label={t(["Cerrar", "Close"])}><X /></button>

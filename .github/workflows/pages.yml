@@ -27,6 +27,7 @@ jobs:
       - run: npm run build
         env:
           GITHUB_PAGES: "true"
+          VITE_GA_ID: ${{ vars.GA_ID }}
       - run: touch dist/.nojekyll
       - uses: actions/upload-pages-artifact@v3
         with:

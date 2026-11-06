@@ -3,6 +3,7 @@ import { FileDown, X } from "lucide-react";
 import { fullMenu } from "../menuData";
 import { INFO } from "../data";
 import { useLang } from "../i18n";
+import { track } from "../analytics";
 
 const HASH = "#carta-completa";
 
@@ -17,6 +18,7 @@ export default function FullMenu() {
     sync(); window.addEventListener("hashchange", sync);
     return () => window.removeEventListener("hashchange", sync);
   }, []);
+  useEffect(() => { if (open) track("carta_abierta"); }, [open]);
   useEffect(() => {
     document.documentElement.style.overflow = open ? "hidden" : "";
     const esc = (e: KeyboardEvent) => e.key === "Escape" && close();
@@ -29,10 +31,10 @@ export default function FullMenu() {
     setOpen(false);
   };
   if (!open) return null;
-  const go = (id: string) => { setSec(id); document.getElementById(`m-${id}`)?.scrollIntoView({ behavior: "smooth" }); };
+  const go = (id: string) => { setSec(id); track("carta_categoria", { categoria: id }); document.getElementById(`m-${id}`)?.scrollIntoView({ behavior: "smooth" }); };
 
   return (
-    <div role="dialog" aria-modal="true" aria-label={t(["Carta completa", "Full menu"])} className="fixed inset-0 z-[80] bg-[#EDE5D6] text-black flex flex-col">
+    <div role="dialog" aria-modal="true" data-area="carta_completa" aria-label={t(["Carta completa", "Full menu"])} className="fixed inset-0 z-[80] bg-[#EDE5D6] text-black flex flex-col">
       <header className="flex items-center justify-between gap-4 px-5 md:px-10 py-4 border-b border-black/10">
         <p className="font-accent text-[24px] md:text-[32px]">{t(["La carta", "The menu"])}</p>
         <div className="flex items-center gap-3">

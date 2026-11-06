@@ -11,7 +11,7 @@ const items = [
 export default function FloatingNav() {
   const { t } = useLang();
   return (
-    <div className="fixed right-4 md:right-6 top-1/2 -translate-y-1/2 z-50 hidden md:flex flex-col gap-4 items-end">
+    <div data-area="botones_flotantes" className="fixed right-4 md:right-6 top-1/2 -translate-y-1/2 z-50 hidden md:flex flex-col gap-4 items-end">
       {items.map(({ icon: Icon, label, href }) => (
         <a key={href} href={href} target="_blank" rel="noreferrer" aria-label={t(label)}
           className="group h-12 min-w-12 px-3.5 rounded-full bg-black/80 backdrop-blur border border-white/15 text-white flex items-center hover:bg-[#EF5C32] hover:border-[#EF5C32] transition-colors duration-300 shadow-lg">

@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { observeSections } from "./analytics";
 import Navbar from "./components/Navbar";
 import FloatingNav from "./components/FloatingNav";
 import Hero from "./components/Hero";
@@ -14,6 +16,7 @@ import FullMenu from "./components/FullMenu";
 import Resenas from "./components/Resenas";
 
 export default function App() {
+  useEffect(observeSections, []);
   return (
     <main>
       <Navbar /><FloatingNav /><Hero /><Gallery /><About /><Carta /><Cocteleria /><WineBand /><Eventos /><Experience /><Resenas /><Visit /><Footer /><FullMenu />

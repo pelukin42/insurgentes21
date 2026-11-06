@@ -1,3 +1,4 @@
+import { track } from "./analytics";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
 export type Lang = "es" | "en";
@@ -23,7 +24,8 @@ export function LangProvider({ children }: { children: ReactNode }) {
     document.documentElement.lang = lang;
     try { localStorage.setItem(KEY, lang); } catch { /* ignore */ }
   }, [lang]);
-  return <Ctx.Provider value={{ lang, setLang }}>{children}</Ctx.Provider>;
+  const choose = (l: Lang) => { if (l !== lang) track("cambio_idioma", { idioma: l }); setLang(l); };
+  return <Ctx.Provider value={{ lang, setLang: choose }}>{children}</Ctx.Provider>;
 }
 
 export function useLang() {
