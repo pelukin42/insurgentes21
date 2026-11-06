@@ -1,0 +1,13 @@
+{
+  "name": "reservas-restaurante",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Módulo de reservas propio para Sofía (CRM omnicanal de restaurantes). Sin dependencias.",
+  "type": "module",
+  "engines": { "node": ">=22.13" },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning src/server.js",
+    "demo": "node --disable-warning=ExperimentalWarning scripts/demo.js",
+    "test": "node --disable-warning=ExperimentalWarning --test test/*.test.js"
+  }
+}

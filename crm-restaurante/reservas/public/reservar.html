@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reservar mesa</title>
+<style>
+  :root { --bg:#EDE5D6; --ink:#1d1f18; --mute:#6b6d63; --olive:#454F36; --orange:#EF5C32; --line:#d9cfbc; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.5 Georgia, "Times New Roman", serif; }
+  .caja { max-width:520px; margin:0 auto; padding:28px 16px 48px; }
+  h1 { font-weight:400; font-size:30px; margin:0 0 4px; }
+  p.sub { color:var(--mute); margin:0 0 22px; font-family:system-ui, sans-serif; font-size:14px; }
+  label { display:block; font:600 12px system-ui, sans-serif; letter-spacing:.06em; text-transform:uppercase; color:var(--mute); margin:16px 0 6px; }
+  input, select, textarea { width:100%; font:16px system-ui, sans-serif; padding:12px; border:1px solid var(--line); border-radius:10px; background:#fff; color:var(--ink); }
+  .dos { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .horas { display:flex; flex-wrap:wrap; gap:8px; }
+  .horas button { font:15px system-ui, sans-serif; padding:9px 12px; border:1px solid var(--olive); color:var(--olive); background:#fff; border-radius:999px; cursor:pointer; }
+  .horas button.on { background:var(--olive); color:#fff; }
+  .nota { font:14px system-ui, sans-serif; color:var(--mute); }
+  .enviar { margin-top:22px; width:100%; padding:14px; border:0; border-radius:10px; background:var(--orange); color:#fff; font:600 16px system-ui, sans-serif; cursor:pointer; }
+  .enviar:disabled { opacity:.5; cursor:default; }
+  .ok { background:#fff; border-radius:14px; padding:20px; border:1px solid var(--line); }
+  .ok b.cod { font:600 24px ui-monospace, monospace; letter-spacing:.12em; }
+  .trampa { position:absolute; left:-9999px; }
+  .error { color:#b42318; font:14px system-ui, sans-serif; margin-top:10px; }
+</style>
+</head>
+<body>
+<div class="caja">
+  <h1 id="nombre">Reservá tu mesa</h1>
+  <p class="sub" id="sub">Confirmación inmediata para hasta 6 personas. Grupos más grandes los confirma el equipo.</p>
+  <form id="f">
+    <div class="dos">
+      <div><label for="personas">Personas</label><input id="personas" name="personas" type="number" min="1" max="60" value="2" required></div>
+      <div><label for="fecha">Fecha</label><input id="fecha" name="fecha" type="date" required></div>
+    </div>
+    <label>Hora</label>
+    <div class="horas" id="horas"><span class="nota">Elegí fecha y personas.</span></div>
+    <label for="nom">Nombre</label><input id="nom" name="nombre" autocomplete="name" required>
+    <label for="tel">WhatsApp</label><input id="tel" name="telefono" type="tel" autocomplete="tel" placeholder="+506 8888 8888" required>
+    <label for="oca">Ocasión (opcional)</label><input id="oca" name="ocasion" placeholder="Cumpleaños, aniversario, negocios…">
+    <label for="not">Notas (opcional)</label><textarea id="not" name="notas" rows="2" placeholder="Alergias, silla para bebé, terraza…"></textarea>
+    <input class="trampa" name="sitio_web" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <button class="enviar" id="btn" disabled>Reservar</button>
+    <div class="error" id="err"></div>
+  </form>
+  <div id="listo" class="ok" hidden></div>
+</div>
+<script>
+const $ = (s) => document.querySelector(s);
+const f = $("#f"); let hora = "", info = { grupoHasta: 15 };
+const hoy = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+f.fecha.min = hoy; f.fecha.value = hoy;
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+fetch("/public/info").then((r) => r.json()).then((i) => {
+  info = i; $("#nombre").textContent = "Reservá en " + i.restaurante; document.title = "Reservar · " + i.restaurante;
+  $("#sub").textContent = `Confirmación inmediata hasta ${i.autoConfirmarHasta} personas. Grupos de ${i.autoConfirmarHasta + 1} a ${i.grupoHasta} quedan apartados y el equipo confirma. Más de ${i.grupoHasta}: evento privado.`;
+  const max = new Date(Date.now() + i.diasMaximosAdelante * 86400000).toISOString().slice(0, 10); f.fecha.max = max;
+});
+async function horarios() {
+  hora = ""; $("#btn").disabled = true; $("#err").textContent = "";
+  const p = Number(f.personas.value);
+  if (p > info.grupoHasta) { $("#horas").innerHTML = `<span class="nota">Para más de ${info.grupoHasta} personas tomamos una solicitud de evento privado y el equipo te contacta. Elegí una hora aproximada:</span>`; ["13:00","19:00","20:00"].forEach(agregar); return; }
+  $("#horas").innerHTML = '<span class="nota">Buscando…</span>';
+  const r = await fetch(`/public/disponibilidad?fecha=${f.fecha.value}&personas=${p}`); const d = await r.json();
+  if (!r.ok) { $("#horas").innerHTML = `<span class="nota">${esc(d.mensaje)}</span>`; return; }
+  $("#horas").innerHTML = d.horarios.length ? "" : '<span class="nota">No quedan mesas ese día. Probá otra fecha.</span>';
+  d.horarios.forEach(agregar);
+}
+function agregar(h) {
+  const b = document.createElement("button"); b.type = "button"; b.textContent = h;
+  b.onclick = () => { document.querySelectorAll(".horas button").forEach((x) => x.classList.remove("on")); b.classList.add("on"); hora = h; $("#btn").disabled = false; };
+  $("#horas").appendChild(b);
+}
+f.fecha.onchange = horarios; f.personas.onchange = horarios; horarios();
+f.onsubmit = async (e) => {
+  e.preventDefault(); if (!hora) return;
+  $("#btn").disabled = true; $("#err").textContent = "";
+  const d = Object.fromEntries(new FormData(f)); d.hora = hora; d.personas = Number(d.personas);
+  const r = await fetch("/public/reservas", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(d) });
+  const j = await r.json();
+  if (!r.ok) {
+    $("#btn").disabled = false;
+    let t = j.mensaje || "No se pudo reservar.";
+    if (j.alternativas?.length) t += " Opciones: " + j.alternativas.map((a) => `${a.fecha} ${a.hora}`).join(", ");
+    $("#err").textContent = t; if (j.error === "SIN_DISPONIBILIDAD") horarios(); return;
+  }
+  const est = j.reserva.estado;
+  f.hidden = true; $("#listo").hidden = false;
+  $("#listo").innerHTML = `<h2 style="margin-top:0;font-weight:400">${est === "confirmada" ? "¡Reserva confirmada!" : "¡Solicitud recibida!"}</h2>
+    <p>${est === "confirmada" ? `Mesa para ${d.personas} el ${esc(d.fecha)} a las ${esc(d.hora)}.` : est === "pendiente" ? "Apartamos la mesa. El equipo confirma tu grupo por WhatsApp a más tardar mañana en la mañana." : "El equipo de eventos te contacta por WhatsApp para coordinar."}</p>
+    <p>Tu código: <b class="cod">${j.reserva.codigo}</b></p><p class="nota">Guardalo para cambiar o cancelar. Te escribiremos un recordatorio antes de tu visita.</p>`;
+};
+</script>
+</body>
+</html>

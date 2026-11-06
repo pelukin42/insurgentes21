@@ -1,0 +1,6 @@
+# Certificado HTTPS automático para el subdominio (ej. reservas.insurgentes21.com).
+# Si el VPS ya tiene Nginx/Caddy para el CRM, agregá solo este bloque a esa configuración.
+{$DOMINIO} {
+	encode gzip
+	reverse_proxy reservas:3100
+}

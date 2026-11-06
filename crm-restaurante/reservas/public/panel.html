@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panel de reservas</title>
+<style>
+  :root { --bg:#F6F2EA; --card:#fff; --ink:#1d1f18; --mute:#6b6d63; --line:#e3ddd0; --olive:#454F36; --orange:#EF5C32; --ok:#2f7d4f; --warn:#b7791f; --bad:#b42318; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; background:var(--bg); color:var(--ink); }
+  header { background:var(--olive); color:#fff; padding:14px 16px; display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+  header h1 { font-size:17px; margin:0; font-weight:600; }
+  nav { display:flex; gap:6px; flex-wrap:wrap; }
+  nav button { background:transparent; color:#fff; border:1px solid #ffffff55; border-radius:999px; padding:6px 12px; cursor:pointer; font:inherit; }
+  nav button.on { background:#fff; color:var(--olive); }
+  .badge { background:var(--orange); color:#fff; border-radius:999px; padding:0 7px; font-size:12px; margin-left:4px; }
+  main { max-width:1100px; margin:0 auto; padding:16px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:12px; }
+  .fila { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  input, select, textarea { font:inherit; padding:8px 10px; border:1px solid var(--line); border-radius:8px; background:#fff; color:var(--ink); }
+  button.b { font:inherit; padding:7px 12px; border-radius:8px; border:1px solid var(--line); background:#fff; cursor:pointer; }
+  button.p { background:var(--olive); color:#fff; border-color:var(--olive); }
+  button.r { color:var(--bad); }
+  table { width:100%; border-collapse:collapse; }
+  th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { font-size:12px; text-transform:uppercase; letter-spacing:.04em; color:var(--mute); font-weight:600; }
+  .est { font-size:12px; padding:2px 8px; border-radius:999px; background:#eee; white-space:nowrap; }
+  .est.confirmada{background:#e3f3e9;color:var(--ok)} .est.pendiente,.est.solicitud{background:#fdf1dc;color:var(--warn)}
+  .est.cancelada,.est.no_show,.est.rechazada{background:#fde7e5;color:var(--bad)} .est.sentada{background:#e6eefc;color:#2550a8}
+  .mute { color:var(--mute); font-size:13px; }
+  .luna { font-size:12px; color:#5b3fa8; }
+  .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:10px; }
+  .kpi { background:#fff; border:1px solid var(--line); border-radius:12px; padding:12px; }
+  .kpi b { display:block; font-size:26px; font-variant-numeric:tabular-nums; }
+  .oculto { display:none !important; }
+  .tabla { overflow-x:auto; }
+  #msg { position:fixed; bottom:16px; left:50%; transform:translateX(-50%); background:var(--ink); color:#fff; padding:10px 16px; border-radius:10px; max-width:90vw; }
+  form.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px; }
+  form.grid label { display:grid; gap:4px; font-size:13px; color:var(--mute); }
+</style>
+</head>
+<body>
+<header>
+  <h1 id="titulo">Reservas</h1>
+  <nav id="nav" class="oculto">
+    <button data-v="dia" class="on">Agenda</button>
+    <button data-v="pend">Por aprobar <span id="nPend" class="badge oculto"></span></button>
+    <button data-v="nueva">Nueva</button>
+    <button data-v="roi">Resultados</button>
+    <button data-v="salir">Salir</button>
+  </nav>
+</header>
+<main>
+  <section id="login" class="card">
+    <p>Ingresá la llave de acceso del restaurante.</p>
+    <div class="fila"><input id="llave" type="password" placeholder="API key" style="flex:1;min-width:220px"><button class="b p" id="entrar">Entrar</button></div>
+  </section>
+
+  <section id="v-dia" class="oculto">
+    <div class="card fila">
+      <button class="b" id="ant">←</button><input type="date" id="fecha"><button class="b" id="sig">→</button>
+      <button class="b" id="hoy">Hoy</button>
+      <span class="mute" id="resumenDia"></span>
+    </div>
+    <div class="card tabla"><table><thead><tr><th>Hora</th><th>Cliente</th><th>Pers.</th><th>Mesas</th><th>Origen</th><th>Estado</th><th></th></tr></thead><tbody id="tDia"></tbody></table></div>
+  </section>
+
+  <section id="v-pend" class="oculto">
+    <div class="card"><p class="mute">Grupos (7 a 15 personas) y eventos que Sofía dejó apartados. Aprobalos o rechazalos; el cliente recibe el aviso automáticamente.</p></div>
+    <div class="card tabla"><table><thead><tr><th>Fecha</th><th>Cliente</th><th>Pers.</th><th>Tipo</th><th>Detalle</th><th></th></tr></thead><tbody id="tPend"></tbody></table></div>
+  </section>
+
+  <section id="v-nueva" class="oculto card">
+    <p class="mute">Reservas que entran por teléfono o en persona. Quedan registradas como hechas por el equipo y no suman al ROI de Sofía.</p>
+    <form id="fNueva" class="grid">
+      <label>Nombre<input name="nombre" required></label>
+      <label>Teléfono<input name="telefono" required></label>
+      <label>Personas<input name="personas" type="number" min="1" value="2" required></label>
+      <label>Fecha<input name="fecha" type="date" required></label>
+      <label>Hora<select name="hora" required></select></label>
+      <label>Canal<select name="canal"><option>telefono</option><option>presencial</option><option>whatsapp</option><option>instagram</option><option>correo</option></select></label>
+      <label>Ocasión<input name="ocasion" placeholder="cumpleaños, aniversario…"></label>
+      <label>Notas<input name="notas" placeholder="alergias, silla de bebé…"></label>
+      <div class="fila"><button class="b p">Guardar reserva</button></div>
+    </form>
+  </section>
+
+  <section id="v-roi" class="oculto">
+    <div class="card fila">Desde <input type="date" id="desde"> hasta <input type="date" id="hasta"> <button class="b p" id="verRoi">Ver</button>
+      <span class="mute">Ticket promedio: <b id="ticket"></b> por persona (se cambia en config.json)</span></div>
+    <div class="kpis" id="kpis"></div>
+    <div class="card" id="roiDetalle"></div>
+  </section>
+</main>
+<div id="msg" class="oculto"></div>
+<script>
+const $ = (s) => document.querySelector(s);
+let KEY = ""; try { KEY = localStorage.getItem("reservas_key") || ""; } catch {}
+const hoyLocal = () => new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+function aviso(t) { const m = $("#msg"); m.textContent = t; m.classList.remove("oculto"); clearTimeout(aviso.t); aviso.t = setTimeout(() => m.classList.add("oculto"), 3500); }
+
+async function api(ruta, opt = {}) {
+  const res = await fetch(ruta, { ...opt, headers: { authorization: "Bearer " + KEY, "content-type": "application/json" } });
+  const j = await res.json().catch(() => ({}));
+  if (res.status === 401) { salir(); throw new Error("Llave incorrecta"); }
+  if (!res.ok) throw new Error(j.mensaje || j.error || "Error");
+  return j;
+}
+function salir() { KEY = ""; try { localStorage.removeItem("reservas_key"); } catch {} $("#login").classList.remove("oculto"); $("#nav").classList.add("oculto"); document.querySelectorAll("main > section[id^=v-]").forEach((s) => s.classList.add("oculto")); }
+async function entrar() {
+  try { await api("/api/reservas/pendientes"); } catch (e) { return aviso(e.message); }
+  try { localStorage.setItem("reservas_key", KEY); } catch {}
+  $("#login").classList.add("oculto"); $("#nav").classList.remove("oculto"); ver("dia");
+  fetch("/public/info").then((r) => r.json()).then((i) => { $("#titulo").textContent = "Reservas · " + i.restaurante; document.title = "Reservas · " + i.restaurante; });
+}
+$("#entrar").onclick = () => { KEY = $("#llave").value.trim(); entrar(); };
+$("#llave").onkeydown = (e) => { if (e.key === "Enter") $("#entrar").click(); };
+
+function ver(v) {
+  if (v === "salir") return salir();
+  document.querySelectorAll("nav button").forEach((b) => b.classList.toggle("on", b.dataset.v === v));
+  document.querySelectorAll("main > section[id^=v-]").forEach((s) => s.classList.toggle("oculto", s.id !== "v-" + v));
+  ({ dia: cargarDia, pend: cargarPend, nueva: () => {}, roi: cargarRoi })[v]();
+}
+$("#nav").onclick = (e) => { const b = e.target.closest("button"); if (b) ver(b.dataset.v); };
+
+const ORIGEN = (r) => `${esc(r.canal)} · ${r.creado_por === "sofia" ? "Sofía" : r.creado_por === "web" ? "web" : "equipo"}${r.fuera_de_horario ? ' <span class="luna">☾ fuera de horario</span>' : ""}`;
+const ACC = { confirmada: ["sentar", "no_show", "cancelar"], sentada: ["completar"], pendiente: ["aprobar", "rechazar"], solicitud: ["aprobar", "rechazar"] };
+const ETQ = { sentar: "Llegó", no_show: "No vino", cancelar: "Cancelar", completar: "Terminó", aprobar: "Aprobar", rechazar: "Rechazar" };
+const botones = (r) => (ACC[r.estado] || []).map((a) => `<button class="b ${a === "aprobar" || a === "sentar" ? "p" : a === "cancelar" || a === "rechazar" || a === "no_show" ? "r" : ""}" data-c="${r.codigo}" data-a="${a}">${ETQ[a]}</button>`).join(" ");
+
+async function accion(e) {
+  const b = e.target.closest("button[data-a]"); if (!b) return;
+  let motivo;
+  if (["cancelar", "rechazar"].includes(b.dataset.a)) { motivo = prompt("Motivo (lo verá el equipo):") ?? null; if (motivo === null) return; }
+  try { await api(`/api/reservas/${b.dataset.c}/${b.dataset.a}`, { method: "POST", body: JSON.stringify({ motivo }) }); aviso("Listo"); cargarDia(); cargarPend(); }
+  catch (err) { aviso(err.message); }
+}
+$("#tDia").onclick = accion; $("#tPend").onclick = accion;
+
+$("#fecha").value = hoyLocal();
+$("#fecha").onchange = cargarDia;
+$("#hoy").onclick = () => { $("#fecha").value = hoyLocal(); cargarDia(); };
+const mover = (n) => { const d = new Date($("#fecha").value + "T12:00:00Z"); d.setUTCDate(d.getUTCDate() + n); $("#fecha").value = d.toISOString().slice(0, 10); cargarDia(); };
+$("#ant").onclick = () => mover(-1); $("#sig").onclick = () => mover(1);
+
+async function cargarDia() {
+  const { reservas } = await api("/api/reservas?fecha=" + $("#fecha").value);
+  const activas = reservas.filter((r) => !["cancelada", "rechazada"].includes(r.estado));
+  $("#resumenDia").textContent = `${activas.length} reservas · ${activas.reduce((s, r) => s + r.personas, 0)} personas`;
+  $("#tDia").innerHTML = reservas.map((r) => `<tr>
+    <td><b>${r.hora}</b><div class="mute">hasta ${r.hasta}</div></td>
+    <td>${esc(r.nombre)}<div class="mute">${esc(r.telefono)} · ${r.codigo}</div>${r.ocasion ? `<div class="mute">🎉 ${esc(r.ocasion)}</div>` : ""}${r.notas ? `<div class="mute">📝 ${esc(r.notas)}</div>` : ""}</td>
+    <td>${r.personas}</td><td>${r.mesas.join(" + ") || "—"}</td><td>${ORIGEN(r)}</td>
+    <td><span class="est ${r.estado}">${r.estado.replace("_", " ")}</span></td><td><div class="fila">${botones(r)}</div></td></tr>`).join("") || `<tr><td colspan="7" class="mute">Sin reservas este día.</td></tr>`;
+  cargarPend(true);
+}
+async function cargarPend(soloContar) {
+  const { reservas } = await api("/api/reservas/pendientes");
+  $("#nPend").textContent = reservas.length; $("#nPend").classList.toggle("oculto", !reservas.length);
+  if (soloContar === true) return;
+  $("#tPend").innerHTML = reservas.map((r) => `<tr>
+    <td><b>${r.fecha}</b> ${r.tipo === "evento" ? "" : r.hora}</td>
+    <td>${esc(r.nombre)}<div class="mute">${esc(r.telefono)} · ${r.codigo}</div></td><td>${r.personas}</td>
+    <td>${r.tipo}${r.mesas.length ? `<div class="mute">${r.mesas.join(" + ")}</div>` : ""}</td>
+    <td>${esc(r.ocasion || "")}<div class="mute">${esc(r.notas || "")}</div><div class="mute">${ORIGEN(r)}</div></td>
+    <td><div class="fila">${botones(r)}</div></td></tr>`).join("") || `<tr><td colspan="6" class="mute">Nada por aprobar.</td></tr>`;
+}
+
+const fN = $("#fNueva");
+async function horasNueva() {
+  const f = fN.fecha.value, p = fN.personas.value; if (!f || !p) return;
+  try { const d = await api(`/api/disponibilidad?fecha=${f}&personas=${p}`); fN.hora.innerHTML = d.horarios.map((h) => `<option>${h}</option>`).join("") || "<option value=''>Sin horarios</option>"; }
+  catch (e) { fN.hora.innerHTML = `<option value=''>${esc(e.message)}</option>`; }
+}
+fN.fecha.value = hoyLocal(); fN.fecha.onchange = horasNueva; fN.personas.onchange = horasNueva;
+$("#nav [data-v=nueva]").addEventListener("click", horasNueva);
+fN.onsubmit = async (e) => {
+  e.preventDefault();
+  const d = Object.fromEntries(new FormData(fN)); d.personas = Number(d.personas); d.creado_por = "equipo";
+  try { const { reserva } = await api("/api/reservas", { method: "POST", body: JSON.stringify(d) }); aviso(`Reserva ${reserva.codigo} · ${reserva.estado}`); fN.reset(); fN.fecha.value = hoyLocal(); horasNueva(); }
+  catch (err) { aviso(err.message); }
+};
+
+const d30 = new Date(Date.now() - 29 * 86400000); $("#desde").value = d30.toISOString().slice(0, 10); $("#hasta").value = hoyLocal();
+$("#verRoi").onclick = cargarRoi;
+async function cargarRoi() {
+  const m = await api(`/api/metricas?desde=${$("#desde").value}&hasta=${$("#hasta").value}`);
+  const $$ = (n) => "$" + n.toLocaleString("es-CR");
+  $("#ticket").textContent = $$(m.ticketPromedioPorPersona);
+  $("#kpis").innerHTML = [
+    ["Reservas fuera de horario", m.fueraDeHorario.reservas, "mensajes que entraron sin nadie del equipo"],
+    ["Ingreso fuera de horario", $$(m.fueraDeHorario.ingresoEstimado), m.fueraDeHorario.comensales + " comensales"],
+    ["Reservas sin intervención", m.automaticas.reservas, "Sofía + página web"],
+    ["Ingreso estimado automático", $$(m.automaticas.ingresoEstimado), m.automaticas.comensales + " comensales"],
+    ["No-shows", m.noShows, m.tasaNoShowConRecordatorio !== null ? `${(m.tasaNoShowConRecordatorio * 100).toFixed(1)}% con recordatorio` : "—"],
+    ["Grupos / eventos", `${m.grupos.solicitados} / ${m.eventos.solicitados}`, `${m.grupos.aprobados} y ${m.eventos.aprobados} aprobados`],
+  ].map(([t, v, s]) => `<div class="kpi"><span class="mute">${t}</span><b>${v}</b><span class="mute">${s}</span></div>`).join("");
+  const lista = (o) => Object.entries(o).map(([k, v]) => `${esc(k)}: <b>${v}</b>`).join(" · ") || "—";
+  $("#roiDetalle").innerHTML = `<p><b>${m.reservas}</b> reservas creadas en el periodo.</p>
+    <p class="mute">Por canal: ${lista(m.porCanal)}</p><p class="mute">Por quién: ${lista(m.porCreador)}</p>
+    <p class="mute">Por estado: ${lista(m.porEstado)}</p><p class="mute">Cancelaciones: ${m.cancelaciones}</p>`;
+}
+setInterval(() => { if (KEY && !$("#v-dia").classList.contains("oculto")) cargarDia(); }, 60000);
+if (KEY) entrar();
+</script>
+</body>
+</html>

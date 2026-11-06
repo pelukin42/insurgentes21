@@ -1,0 +1,67 @@
+{
+  "_nota": "Herramientas que Sofía usa para reservar. Formato JSON Schema estándar: sirve para Claude (tools → input_schema), para el nodo AI Agent de n8n (HTTP Request Tool) y para OpenAI (functions → parameters). Todas llaman al módulo de reservas con la cabecera Authorization: Bearer <API_KEY>.",
+  "base_url": "https://reservas.TU-DOMINIO.com",
+  "herramientas": [
+    {
+      "name": "consultar_disponibilidad",
+      "description": "Devuelve los horarios en que hay mesa para un número de personas en una fecha. Usala SIEMPRE antes de ofrecer o confirmar un horario. Si 'tipo' es 'evento' (más de 15 personas) no hay horarios: tomá los datos y creá la solicitud con crear_reserva.",
+      "http": { "method": "GET", "path": "/api/disponibilidad", "query": ["fecha", "personas"] },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "fecha": { "type": "string", "description": "Fecha en formato AAAA-MM-DD, hora de Costa Rica. Convertí 'hoy', 'mañana', 'el sábado' a fecha exacta." },
+          "personas": { "type": "integer", "minimum": 1, "description": "Cantidad total de personas, incluyendo niños." }
+        },
+        "required": ["fecha", "personas"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "crear_reserva",
+      "description": "Crea la reserva. Solo llamala cuando el cliente confirmó fecha, hora, personas, nombre y teléfono. Respuestas: 201 con 'reserva.estado' = confirmada (hasta 6 personas), pendiente (7 a 15: el equipo aprueba) o solicitud (más de 15: evento). 409 DUPLICADA: ya tiene reserva ese día, ofrecé cambiarla. 422 SIN_DISPONIBILIDAD u HORA_FUERA_DE_SERVICIO: ofrecé las 'alternativas' que vienen en la respuesta.",
+      "http": { "method": "POST", "path": "/api/reservas" },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "nombre": { "type": "string", "description": "Nombre y apellido de quien reserva." },
+          "telefono": { "type": "string", "description": "Teléfono con código de país. En WhatsApp usá el número del contacto sin preguntarlo." },
+          "personas": { "type": "integer", "minimum": 1 },
+          "fecha": { "type": "string", "description": "AAAA-MM-DD" },
+          "hora": { "type": "string", "description": "HH:MM en 24 horas, uno de los horarios devueltos por consultar_disponibilidad." },
+          "canal": { "type": "string", "enum": ["whatsapp", "instagram", "messenger", "web", "correo"], "description": "Canal de la conversación actual." },
+          "idioma": { "type": "string", "enum": ["es", "en"] },
+          "ocasion": { "type": "string", "description": "Cumpleaños, aniversario, negocios, etc. Opcional." },
+          "notas": { "type": "string", "description": "Alergias, silla de bebé, preferencia de terraza, presupuesto del evento, etc. Opcional." },
+          "conversacion_id": { "type": "string", "description": "ID de la conversación en el CRM, para que el equipo la encuentre." }
+        },
+        "required": ["nombre", "telefono", "personas", "fecha", "hora", "canal"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "buscar_reservas",
+      "description": "Lista las reservas futuras de un teléfono. Usala cuando el cliente quiere cambiar, cancelar o confirmar su reserva.",
+      "http": { "method": "GET", "path": "/api/reservas", "query": ["telefono"] },
+      "input_schema": {
+        "type": "object",
+        "properties": { "telefono": { "type": "string" } },
+        "required": ["telefono"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "cancelar_reserva",
+      "description": "Cancela una reserva por su código. Confirmá con el cliente antes de llamarla. Para CAMBIAR una reserva: primero consultar_disponibilidad del nuevo horario, después cancelar_reserva, y por último crear_reserva.",
+      "http": { "method": "POST", "path": "/api/reservas/{codigo}/cancelar", "body": ["motivo"] },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "codigo": { "type": "string", "description": "Código de 6 caracteres de la reserva." },
+          "motivo": { "type": "string", "description": "Por qué cancela, en pocas palabras." }
+        },
+        "required": ["codigo"],
+        "additionalProperties": false
+      }
+    }
+  ]
+}

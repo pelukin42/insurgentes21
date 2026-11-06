@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora OpenTable</title>
+<style>
+  :root { --bg:#F6F2EA; --card:#fff; --ink:#1d1f18; --mute:#6b6d63; --line:#e3ddd0; --olive:#454F36; --orange:#EF5C32; --ok:#2f7d4f; --bad:#b42318; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#16170f; --card:#202219; --ink:#ecebe4; --mute:#a5a79a; --line:#34372a; --olive:#9fb07f; --ok:#6fcf97; --bad:#ff8a80; } }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width:980px; margin:0 auto; padding:24px 16px 60px; }
+  h1 { font-size:24px; margin:0 0 4px; } h2 { font-size:17px; margin:0 0 10px; }
+  p.sub { color:var(--mute); margin:0 0 20px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:14px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; }
+  label { display:grid; grid-template-columns:1fr 110px; gap:8px; align-items:center; margin:8px 0; font-size:14px; }
+  label small { display:block; color:var(--mute); font-size:12px; }
+  input { width:100%; font:inherit; padding:6px 8px; border:1px solid var(--line); border-radius:8px; background:var(--bg); color:var(--ink); text-align:right; font-variant-numeric:tabular-nums; }
+  table { width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums; }
+  td { padding:7px 4px; border-bottom:1px solid var(--line); } td:last-child { text-align:right; white-space:nowrap; }
+  tr.tot td { font-weight:700; border-bottom:0; }
+  .big { font-size:30px; font-weight:700; font-variant-numeric:tabular-nums; }
+  .pos { color:var(--ok); } .neg { color:var(--bad); }
+  .nota { color:var(--mute); font-size:13px; }
+  .veredicto { border-left:4px solid var(--olive); }
+</style>
+</head>
+<body>
+<main>
+  <h1>OpenTable vs. sistema propio</h1>
+  <p class="sub">Llená los números con la <b>factura de OpenTable</b> y el reporte de comensales (OpenTable → Reportes → comensales por origen). Todo se recalcula solo.</p>
+
+  <div class="grid">
+    <section class="card">
+      <h2>1 · Lo que cobra OpenTable</h2>
+      <label><span>Plan mensual (USD)<small>suscripción fija de la factura</small></span><input id="plan" type="number" value="299"></label>
+      <label><span>Comensales/mes desde la red OpenTable<small>app y sitio de OpenTable</small></span><input id="cRed" type="number" value="300"></label>
+      <label><span>Tarifa por comensal de red (USD)</span><input id="fRed" type="number" step="0.05" value="1.50"></label>
+      <label><span>Comensales/mes por el widget en web, Instagram o Google<small>reservas "propias" que pasan por OpenTable</small></span><input id="cWid" type="number" value="250"></label>
+      <label><span>Tarifa por comensal de widget (USD)</span><input id="fWid" type="number" step="0.05" value="0.25"></label>
+      <label><span>Otros cargos mensuales (USD)<small>pagos con tarjeta, add-ons, impuestos</small></span><input id="otros" type="number" value="0"></label>
+    </section>
+
+    <section class="card">
+      <h2>2 · El negocio y el sistema propio</h2>
+      <label><span>Ticket promedio por persona (USD)</span><input id="ticket" type="number" value="25"></label>
+      <label><span>Margen de contribución (%)<small>lo que queda después del costo de comida y bebida; restaurantes: 60–70 %</small></span><input id="margen" type="number" value="65"></label>
+      <label><span>Costo mensual del sistema propio (USD)<small>proveedores (~$40) + mantenimiento con IVA ($169,50)</small></span><input id="propio" type="number" value="210"></label>
+      <label><span>% de comensales de red que se perderían sin OpenTable<small>turistas que solo buscan en OpenTable; 20–40 % es prudente</small></span><input id="perdida" type="number" value="30"></label>
+      <h2 style="margin-top:18px">3 · Lo que rescata Sofía</h2>
+      <label><span>Reservas/mes fuera de horario<small>panel → Resultados</small></span><input id="rNoche" type="number" value="40"></label>
+      <label><span>Personas promedio por reserva</span><input id="pProm" type="number" step="0.1" value="3"></label>
+      <label><span>% que sin Sofía se habrían perdido<small>no contestadas a tiempo</small></span><input id="pPerd" type="number" value="60"></label>
+    </section>
+  </div>
+
+  <div class="grid" style="margin-top:14px">
+    <section class="card">
+      <h2>Hoy: costo de OpenTable</h2>
+      <table id="tOT"></table>
+      <p class="nota">Costo por comensal reservado: <b id="cpc"></b></p>
+    </section>
+    <section class="card">
+      <h2>Escenarios</h2>
+      <table id="tEsc"></table>
+    </section>
+  </div>
+
+  <section class="card veredicto" style="margin-top:14px">
+    <h2>Lectura</h2>
+    <div id="ver"></div>
+  </section>
+
+  <p class="nota" style="margin-top:16px">Los valores iniciales son de ejemplo (planes de OpenTable publicados para EE. UU.); la cuenta de Costa Rica puede tener otra tarifa. La fuente de verdad es la factura.</p>
+</main>
+<script>
+const v = (id) => Number(document.getElementById(id).value) || 0;
+const $ = (n) => (n < 0 ? "−$" : "$") + Math.abs(Math.round(n)).toLocaleString("es-CR");
+const fila = (a, b, c = "") => `<tr class="${c}"><td>${a}</td><td>${b}</td></tr>`;
+function calc() {
+  const plan = v("plan"), cRed = v("cRed"), fRed = v("fRed"), cWid = v("cWid"), fWid = v("fWid"), otros = v("otros");
+  const ticket = v("ticket"), m = v("margen") / 100, propio = v("propio"), perd = v("perdida") / 100;
+  const costoOT = plan + cRed * fRed + cWid * fWid + otros;
+  const comens = cRed + cWid;
+  document.getElementById("tOT").innerHTML =
+    fila("Plan mensual", $(plan)) + fila(`Red: ${cRed} × $${fRed}`, $(cRed * fRed)) + fila(`Widget: ${cWid} × $${fWid}`, $(cWid * fWid)) +
+    fila("Otros", $(otros)) + fila("Total al mes", $(costoOT), "tot") + fila("Total al año", $(costoOT * 12), "tot");
+  document.getElementById("cpc").textContent = comens ? "$" + (costoOT / comens).toFixed(2) : "—";
+
+  // A: mantener OpenTable solo como vitrina; las reservas directas pasan al sistema propio
+  const ahorroA = cWid * fWid;
+  // B: quitar OpenTable
+  const riesgoB = cRed * perd * ticket * m;
+  const netoB = costoOT - propio - riesgoB;
+  // Valor de Sofía
+  const sofia = v("rNoche") * v("pProm") * (v("pPerd") / 100) * ticket * m;
+  const equilibrio = cRed * ticket * m > 0 ? (costoOT - propio) / (cRed * ticket * m) : 0;
+
+  document.getElementById("tEsc").innerHTML =
+    fila("<b>A · OpenTable solo como vitrina</b><br><span class='nota'>widget reemplazado por la página propia y Sofía</span>", "") +
+    fila("Ahorro en tarifas de widget", $(ahorroA)) +
+    fila("Margen que suma Sofía (noches)", $(sofia)) +
+    fila("Resultado neto A al mes", `<span class="${ahorroA + sofia - propio >= 0 ? "pos" : "neg"}">${$(ahorroA + sofia - propio)}</span>`, "tot") +
+    fila("<b>B · Quitar OpenTable</b>", "") +
+    fila("Deja de pagar OpenTable", $(costoOT)) +
+    fila("Paga el sistema propio", $(-propio)) +
+    fila(`Margen perdido (${Math.round(perd * 100)} % de la red)`, $(-riesgoB)) +
+    fila("Margen que suma Sofía (noches)", $(sofia)) +
+    fila("Resultado neto B al mes", `<span class="${netoB + sofia >= 0 ? "pos" : "neg"}">${$(netoB + sofia)}</span>`, "tot");
+
+  const mejor = netoB + sofia > ahorroA + sofia - propio ? "B" : "A";
+  document.getElementById("ver").innerHTML = `
+    <p>OpenTable le cuesta al restaurante <b>${$(costoOT)} al mes</b> (${$(costoOT * 12)} al año).
+    Solo por las mesas de noche que Sofía rescata, el sistema propio aporta <b>${$(sofia)} de margen al mes</b>
+    contra <b>${$(propio)}</b> de costo: ${sofia >= propio ? `<span class="pos">se paga solo ${(sofia / propio).toFixed(1)} veces</span>` : `<span class="neg">todavía no se paga solo con eso</span>`}.</p>
+    <p>Quitar OpenTable conviene mientras se pierda menos del <b>${Math.max(0, Math.round(equilibrio * 100))} %</b> de los comensales que hoy llegan por su red.
+    Con el ${Math.round(perd * 100)} % que pusiste, el escenario más conveniente es <b>${mejor}</b>.</p>
+    <p class="nota">Recomendación: durante el piloto, escenario A. Medí cuántos comensales llegan por la red de OpenTable y cuántos de esos son turistas.
+    Si la red aporta poco, pasá a B al terminar el piloto.</p>`;
+}
+document.querySelectorAll("input").forEach((i) => i.addEventListener("input", calc));
+calc();
+</script>
+</body>
+</html>

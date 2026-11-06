@@ -1,0 +1,25 @@
+# Módulo de reservas + HTTPS automático (Caddy). Para usar junto al CRM que ya corre en el mismo VPS.
+# 1) cp .env.example .env  y completar   2) docker compose up -d --build
+services:
+  reservas:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ./datos:/data
+      - ./config.json:/app/config.json:ro
+    expose: ["3100"]
+
+  caddy:
+    image: caddy:2.8
+    restart: unless-stopped
+    ports: ["80:80", "443:443"]
+    environment:
+      - DOMINIO=${DOMINIO}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+    depends_on: [reservas]
+
+volumes:
+  caddy_data:
