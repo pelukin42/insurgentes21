@@ -5,14 +5,19 @@ import { timingSafeEqual } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { abrirDB } from "./db.js";
-import { crearMotor, ErrorReserva } from "./motor.js";
+import { crearMotor, ErrorReserva, CANALES } from "./motor.js";
 import { crearNotificador } from "./notificador.js";
 
 const AQUI = dirname(fileURLToPath(import.meta.url));
 const PUBLICO = join(AQUI, "..", "public");
 
-export function crearApp({ config, db, apiKey, reloj }) {
+export function crearApp({ config, db, apiKey, reloj, tokensCRM = [] }) {
   const motor = crearMotor({ db, config, reloj });
+  const tokens = tokensCRM.filter(Boolean).map((t) => Buffer.from(t));
+  function tokenCRM(req) {
+    const dado = Buffer.from(String(req.headers["x-omnicanal-token"] || ""));
+    return tokens.some((t) => t.length === dado.length && timingSafeEqual(t, dado));
+  }
   const estaticos = {
     "/panel": ["panel.html", "text/html; charset=utf-8"],
     "/reservar": ["reservar.html", "text/html; charset=utf-8"],
@@ -100,6 +105,14 @@ export function crearApp({ config, db, apiKey, reloj }) {
         return enviar(res, 404, { error: "NO_EXISTE" }, true);
       }
 
+      // ---------- Herramientas del CRM AxelSites (webhook con cabecera X-Omnicanal-Token) ----------
+      const mh = /^\/crm\/([a-z_]+)$/.exec(ruta);
+      if (mh && req.method === "POST") {
+        if (!tokenCRM(req)) return enviar(res, 401, { ok: false, error: "NO_AUTORIZADO", mensaje: "Token de herramienta incorrecto." });
+        const cuerpo = await leerJSON(req);
+        return enviar(res, 200, herramientaCRM(motor, config, mh[1], cuerpo));
+      }
+
       // ---------- Privado: Sofía (CRM / n8n) y panel del equipo ----------
       if (!ruta.startsWith("/api/")) return enviar(res, 404, { error: "NO_EXISTE" });
       if (!autorizado(req)) return enviar(res, 401, { error: "NO_AUTORIZADO", mensaje: "Falta o es incorrecta la API key." });
@@ -150,6 +163,75 @@ export function crearApp({ config, db, apiKey, reloj }) {
   return { manejar, motor };
 }
 
+/**
+ * Adaptador para las "Herramientas" del CRM AxelSites. El CRM manda un POST con los datos que Sofía juntó;
+ * se aceptan varias formas del cuerpo (args / parametros / arguments / plano). Siempre responde 200 con
+ * { ok, mensaje, ... } para que Sofía lea el resultado aunque no se haya podido reservar.
+ */
+export function herramientaCRM(motor, config, nombre, cuerpo = {}) {
+  const args = cuerpo.args || cuerpo.parametros || cuerpo.arguments || cuerpo.datos || cuerpo;
+  const ctx = cuerpo.contacto || cuerpo.contact || cuerpo.conversacion || cuerpo.conversation || {};
+  const telContacto = ctx.telefono || ctx.phone || cuerpo.telefono_contacto || cuerpo.phone || "";
+  const telefono = args.telefono || telContacto;
+  const canalCRM = String(args.canal || cuerpo.canal || ctx.canal || ctx.channel || "whatsapp").toLowerCase();
+  const canal = CANALES.includes(canalCRM) ? canalCRM : "whatsapp";
+  const prueba = cuerpo.prueba === true || args.prueba === true;
+  try {
+    switch (nombre) {
+      case "consultar_disponibilidad": {
+        const d = motor.disponibilidad(args.fecha, args.personas);
+        const mensaje = d.tipo === "evento"
+          ? `Para ${d.personas} personas se atiende como evento privado: tomá los datos y usá crear_reserva.`
+          : d.horarios.length
+            ? `Hay mesa para ${d.personas} el ${d.fecha} a estas horas: ${d.horarios.join(", ")}.`
+            : `No queda mesa para ${d.personas} el ${d.fecha}. Probá otro día.`;
+        return { ok: true, mensaje, ...d };
+      }
+      case "crear_reserva": {
+        const datos = {
+          nombre: args.nombre, telefono, personas: args.personas, fecha: args.fecha, hora: args.hora, canal,
+          idioma: args.idioma, ocasion: args.ocasion, notas: args.notas, creado_por: "sofia",
+          conversacion_id: cuerpo.conversacion_id || cuerpo.conversation_id || ctx.id || null,
+        };
+        if (prueba) {
+          return { ok: true, prueba: true, mensaje: "Prueba correcta: la herramienta llega al módulo de reservas. No se creó ninguna reserva." };
+        }
+        const r = motor.crear(datos);
+        const pub = motor.porCodigo(r.codigo);
+        return { ok: true, reserva: pub, mensaje: mensajeSugerido(pub, config) };
+      }
+      case "buscar_reservas": {
+        const reservas = motor.buscarPorTelefono(telefono).filter((r) => !["cancelada", "rechazada"].includes(r.estado));
+        return {
+          ok: true, reservas,
+          mensaje: reservas.length
+            ? reservas.map((r) => `${r.codigo}: ${r.fecha} ${r.hora}, ${r.personas} personas (${r.estado})`).join("; ")
+            : "No tiene reservas futuras con ese teléfono.",
+        };
+      }
+      case "cancelar_reserva": {
+        if (prueba) return { ok: true, prueba: true, mensaje: "Prueba correcta. No se canceló nada." };
+        const actual = motor.porCodigo(args.codigo);
+        const tel = String(telefono).replace(/\D/g, "").slice(-8);
+        if (actual && tel && !actual.telefono.replace(/\D/g, "").endsWith(tel))
+          return { ok: false, error: "OTRO_TELEFONO", mensaje: "Esa reserva está a nombre de otro teléfono. Pasá la conversación al equipo." };
+        const r = motor.cambiarEstado(args.codigo, "cancelar", { motivo: args.motivo || "cancelada por el cliente (Sofía)" });
+        return { ok: true, reserva: r, mensaje: `Reserva ${r.codigo} cancelada.` };
+      }
+      default:
+        return { ok: false, error: "HERRAMIENTA_DESCONOCIDA", mensaje: `No existe la herramienta ${nombre}.` };
+    }
+  } catch (err) {
+    if (err instanceof ErrorReserva) {
+      let mensaje = err.message;
+      if (err.extra.alternativas?.length) mensaje += " Alternativas: " + err.extra.alternativas.map((a) => `${a.fecha} ${a.hora}`).join(", ") + ".";
+      if (err.extra.reserva) mensaje += ` Reserva existente: ${err.extra.reserva.codigo} a las ${err.extra.reserva.hora}.`;
+      return { ok: false, error: err.codigo, mensaje, ...err.extra };
+    }
+    throw err;
+  }
+}
+
 /** Texto listo para que Sofía lo mande (ella lo puede adaptar al tono de la conversación). */
 export function mensajeSugerido(r, config) {
   const fecha = new Date(`${r.fecha}T12:00:00Z`).toLocaleDateString(r.idioma === "en" ? "en-US" : "es-CR", {
@@ -180,7 +262,8 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     process.exit(1);
   }
   const db = abrirDB(process.env.DB_PATH || join(AQUI, "..", "datos", "reservas.db"));
-  const { manejar, motor } = crearApp({ config, db, apiKey });
+  const tokensCRM = (process.env.CRM_TOKENS || "").split(",").map((t) => t.trim());
+  const { manejar, motor } = crearApp({ config, db, apiKey, tokensCRM });
   const notif = crearNotificador({ db, url: process.env.WEBHOOK_URL, secreto: process.env.WEBHOOK_SECRET });
   const ciclo = async () => { try { motor.tic(); await notif.enviarPendientes(); } catch (e) { console.error(e); } };
   setInterval(ciclo, 60000);

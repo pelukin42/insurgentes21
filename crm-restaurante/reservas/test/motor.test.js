@@ -127,3 +127,30 @@ test("API: requiere llave y crea reserva", async () => {
     srv.close();
   }
 });
+
+test("herramientas del CRM con X-Omnicanal-Token", async () => {
+  const db = abrirDB(":memory:");
+  const { manejar } = crearApp({ config, db, apiKey: "k".repeat(32), reloj: () => NOCHE, tokensCRM: ["tok-a", "tok-b"] });
+  const { createServer } = await import("node:http");
+  const srv = createServer(manejar).listen(0);
+  const url = `http://localhost:${srv.address().port}`;
+  const post = (h, body, tok = "tok-b") => fetch(`${url}/crm/${h}`, {
+    method: "POST", headers: { "content-type": "application/json", "x-omnicanal-token": tok }, body: JSON.stringify(body),
+  });
+  try {
+    assert.equal((await post("consultar_disponibilidad", {}, "malo")).status, 401);
+    let j = await (await post("consultar_disponibilidad", { args: { fecha: "2026-11-11", personas: "2" } })).json();
+    assert.ok(j.ok && j.horarios.includes("20:00"));
+    j = await (await post("crear_reserva", { prueba: true, args: {} })).json();
+    assert.ok(j.prueba);
+    j = await (await post("crear_reserva", { parametros: { nombre: "Ana", personas: 2, fecha: "2026-11-11", hora: "20:00" }, contacto: { telefono: "+50688881111" } })).json();
+    assert.equal(j.reserva.estado, "confirmada");
+    assert.match(j.mensaje, /Mesa para 2/);
+    j = await (await post("crear_reserva", { nombre: "Ana", telefono: "+50688881111", personas: 2, fecha: "2026-11-11", hora: "21:00" })).json();
+    assert.equal(j.ok, false); assert.equal(j.error, "DUPLICADA");
+    j = await (await post("buscar_reservas", { args: { telefono: "88881111" } })).json();
+    assert.equal(j.reservas.length, 1);
+    j = await (await post("cancelar_reserva", { args: { codigo: j.reservas[0].codigo, telefono: "88881111" } })).json();
+    assert.equal(j.reserva.estado, "cancelada");
+  } finally { srv.close(); }
+});
