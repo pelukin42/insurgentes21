@@ -34,6 +34,9 @@ Tu VPS
 y los reportes quedarían mezclados.
 
 ### Lo que necesitás para instalar la segunda copia
+
+Como lo instalaste con **Coolify**, seguí la guía 7 (`07-instalar-con-coolify.md`): no hace falta SSH.
+
 El CRM y este módulo corren en contenedores, así que hace falta acceso al servidor por alguna de estas vías:
 - **SSH** (activarlo en el panel del proveedor del VPS: Hostinger, DigitalOcean, Hetzner, etc.), o
 - el **panel con el que lo instalaste** (Coolify, EasyPanel, Dokploy, Portainer, o el "Docker Manager" del proveedor).

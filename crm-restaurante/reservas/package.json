@@ -8,6 +8,7 @@
   "scripts": {
     "start": "node --disable-warning=ExperimentalWarning src/server.js",
     "demo": "node --disable-warning=ExperimentalWarning scripts/demo.js",
+    "respaldo": "node --disable-warning=ExperimentalWarning scripts/respaldo.js",
     "test": "node --disable-warning=ExperimentalWarning --test test/*.test.js"
   }
 }

@@ -15,6 +15,7 @@ Paquete para el piloto de 30–60 días con Insurgentes 21, reutilizable con otr
 | 5 | Guía para quien maneja redes y lo digital | [`guias/03-guia-redes-sociales.md`](guias/03-guia-redes-sociales.md) |
 | 6 | Requerimientos técnicos y costos mensuales | [`guias/04-requerimientos-tecnicos-y-costos.md`](guias/04-requerimientos-tecnicos-y-costos.md) |
 | 6b | **Conectar al CRM AxelSites** (opción A del piloto + las 4 herramientas de Sofía) | [`guias/06-conectar-crm-axelsites.md`](guias/06-conectar-crm-axelsites.md) |
+| 6c | **Instalar el piloto con Coolify** (copia del CRM + módulo de reservas, sin SSH) | [`guias/07-instalar-con-coolify.md`](guias/07-instalar-con-coolify.md) |
 | 7 | Ahorro vs. OpenTable + calculadora | [`guias/05-ahorro-vs-opentable.md`](guias/05-ahorro-vs-opentable.md) · [`guias/calculadora-opentable.html`](guias/calculadora-opentable.html) |
 
 ## Probarlo ya (10 minutos)
