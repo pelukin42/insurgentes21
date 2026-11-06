@@ -26,6 +26,7 @@ Para el piloto ya desarrollé esa lógica como un módulo aparte (Node.js, sin d
 
   A. Módulo "Reservas" dentro del CRM (modo restaurante)
      Un tipo de agenda que reemplace "Agenda" por "Reservas" cuando el negocio es restaurante: varias reservas a la misma hora, campo de personas, mesa asignada, estados de arriba y vista por mesas. Te paso la lógica, las reglas y las pruebas que ya tengo, para que no empieces de cero.
+     Si prefieres, lo desarrollo yo: dame acceso al repositorio y te lo envío como Pull Request para que lo revises e incluyas en tus versiones. Así sigue siendo tu producto, con tus actualizaciones, y no mantengo una copia aparte.
 
   B. Que la Agenda acepte reservas externas
      Una API (con token de agente) para crear, actualizar y cancelar citas con:
