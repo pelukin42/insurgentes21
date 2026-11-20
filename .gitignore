@@ -3,3 +3,6 @@ dist
 .preview-cache
 insurgentes21-preview.html
 .netlify
+
+# Presentaciones comerciales (no publicar: el repositorio es público)
+propuestas/presentacion-*.html
