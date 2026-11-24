@@ -10,6 +10,7 @@ const DOCS = {
   "ct01-sitio-web.html": "Cotizacion-CT01-Insurgentes21-SitioWeb.pdf",
   "ct02-crm-omnicanal.html": "Cotizacion-CT02-Insurgentes21-CRM-Omnicanal.pdf",
   "preguntas-diagnostico.html": "Preguntas-de-diagnostico-Insurgentes21.pdf",
+  "guia-de-uso-crm.html": "Guia-de-uso-CRM-Insurgentes21.pdf",
 };
 (async () => {
   const only = process.argv.slice(2);
