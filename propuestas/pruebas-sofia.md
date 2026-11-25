@@ -167,3 +167,79 @@ Conversaciones reales contra crm-insurgentes.axelsites.com por el chat web (mism
 ## 12. Pide humano
 - **Cliente:** Quiero hablar con María José
 - **Sofía:** Claro, le ayudo a pasarlo con el equipo para que le atiendan directamente.
+
+# Ronda 4 y prueba de mesas llenas — 25/11/2026
+
+## Ronda 4
+### 1. Grupo de 8 con resumen
+- **Cliente:** Quiero reservar para 8 personas el domingo a las 7 de la noche
+- **Sofía:** Sí hay mesa para el domingo 29 a las 7:00 p.m. para 8 personas.
+- **Sofía:** ¿Me indica el nombre completo, por favor?
+- **Cliente:** A nombre de PRUEBA Claude, mi número es 8312 7396
+- **Sofía:** Le aparté la mesa, su código es 964WFD. María José, nuestra Hostess, se la confirma en breve por aquí.
+- **Cliente:** Sí, correcto
+- **Sofía:** Te paso con el equipo. Te contestarán por aquí en cuanto puedan.
+
+### 2. Domingo fuera de rango
+- **Cliente:** Mesa para 2 el domingo a las 9 y media de la noche
+- **Sofía:** El domingo a las 9:30 p.m. ya no tenemos reservaciones disponibles.
+- **Sofía:** Le puedo ofrecer 8:00 p.m. o 8:15 p.m., ¿cuál le sirve?
+
+### 3. Viernes tarde
+- **Cliente:** ¿Hasta qué hora puedo reservar el viernes? Somos 4
+- **Sofía:** El viernes puede reservar hasta las 10:00 p.m. para 4 personas.
+- **Sofía:** Si gusta, le ayudo a apartar la mesa.
+
+### 4. Disponibilidad sin hora
+- **Cliente:** ¿Tienen espacio el viernes?
+- **Sofía:** Sí, para el viernes hay espacio para 2 personas desde las 12:00 m.d. hasta las 10:15 p.m. ¿A qué hora le gustaría reservar?
+
+### 5. Grupo de 25
+- **Cliente:** Hola, somos 25 personas para la fiesta de fin de año de la empresa
+- **Sofía:** Con gusto le ayudo con eso. Para grupos de ese tamaño, el equipo revisa la disponibilidad y la coordinación del evento. Le pido un momento y le contactan para continuar.
+
+### 6. Fuera de tema
+- **Cliente:** ¿Cuánto es 15% de 340?
+- **Sofía:** Lo siento, solo puedo ayudar con temas de Insurgentes 21.
+
+### 7. Parqueo
+- **Cliente:** ¿Tienen parqueo?
+- **Sofía:** Sí, contamos con parqueo. Si desea, también le puedo compartir la ubicación exacta.
+
+### 8. Mascotas
+- **Cliente:** ¿Puedo llevar a mi perro?
+- **Sofía:** No tengo esa información confirmada. Si gusta, le ayudo a coordinar con una persona del equipo para que se lo verifique.
+
+### 9. Horario domingo
+- **Cliente:** ¿A qué hora abren el domingo?
+- **Sofía:** El domingo abrimos a las 12:00 m.d. y cerramos a las 9:00 p.m.; la última reserva es a las 8:00 p.m.
+
+### 10. Alergia
+- **Cliente:** Soy celíaca, ¿los tacos gobernador tienen gluten?
+- **Sofía:** Los tacos gobernador llevan queso, camarones ahumados, aguacate y mayonesa de chipotle. No tengo confirmado si contienen gluten o si se preparan sin trazas, así que se lo puedo verificar con el equipo si gusta.
+
+### 11. Inglés reserva
+- **Cliente:** Hi, can I book a table for 3 tomorrow at 7pm?
+- **Sofía:** Yes — I can help with that. What name should I put on the reservation?
+
+### 12. Pide humano
+- **Cliente:** Quiero hablar con María José
+- **Sofía:** Claro, le ayudo a pasarle el mensaje al equipo para que le contacten. Si desea, también puedo tomarle cualquier detalle de su consulta por aquí.
+
+## Validación: miércoles 2/12 a las 7 p.m. con las mesas para 4 llenas
+### 1. Cliente nuevo pide mesa para 4 a la hora llena
+- **Cliente:** Buenas, quisiera una mesa para 4 personas el miércoles 2 de diciembre a las 7 de la noche
+- **Sofía:** Para ese miércoles 2 de diciembre sí tengo opciones; a las 7:00 p.m. no hay disponibilidad.
+- **Sofía:** Le puedo ofrecer 9:00 p.m. o 9:15 p.m., ¿cuál le sirve?
+
+### 2. Cliente nuevo insiste en esa hora
+- **Cliente:** Hola, necesito mesa para 4 el miércoles 2 de diciembre a las 7pm, es importante, ¿no hay ninguna?
+- **Sofía:** Sí hay opciones para ese día. Las más cercanas a las 7:00 p.m. son 9:00 p.m. y 9:15 p.m.
+- **Sofía:** Si le sirve, se la aparto.
+- **Cliente:** ¿Y si nos sentamos en la barra o en la terraza a las 7?
+- **Sofía:** A las 7:00 p.m. no tengo mesa disponible para 4, y no puedo asegurar barra o terraza sin reservarlo aparte.
+- **Sofía:** Sí le puedo ofrecer 9:00 p.m. o 9:15 p.m., si le sirve.
+
+### 3. Mesa para 2 a la misma hora
+- **Cliente:** Mesa para 2 el miércoles 2 de diciembre a las 7 de la noche
+- **Sofía:** Entonces, mesa para 2 personas el miércoles 2 de diciembre a las 7:00 p.m., ¿correcto?
