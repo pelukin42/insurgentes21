@@ -112,3 +112,58 @@ Conversaciones reales contra crm-insurgentes.axelsites.com por el chat web (mism
 ## 25. Mascotas / terraza
 - **Cliente:** ¿Puedo llegar con mi perro? ¿Tienen terraza?
 - **Sofía:** Sí, con gusto. No tengo confirmada aquí la política de mascotas ni la terraza, así que se lo confirma una persona del equipo.
+
+# Ronda 3 — 25/11/2026
+
+## 1. Grupo de 8 con resumen
+- **Cliente:** Quiero reservar para 8 personas el sábado a las 8:30 de la noche
+- **Sofía:** Sí hay espacio para sábado 28 a las 8:30 p.m. Me hace falta su nombre completo para apartarle la mesa.
+- **Cliente:** A nombre de PRUEBA Claude, mi número es 8312 7396
+- **Sofía:** Ya tiene una reserva activa para ese día: código Y5VE4L, a nombre de PRUEBA Claude. Si quiere, le ayudo a cambiarla.
+- **Cliente:** Sí, correcto
+- **Sofía:** Perfecto, le aparto la mesa de 8 personas para sábado 28 a las 8:30 p.m. a nombre de PRUEBA Claude. ¿Es correcto?
+
+## 2. Domingo fuera de rango
+- **Cliente:** Mesa para 2 el domingo a las 9 y media de la noche
+- **Sofía:** El domingo 29 no tenemos disponibilidad a las 9:30 p.m. Para 2 personas, sí tengo a las 8:15 p.m.
+- **Sofía:** o 8:00 p.m. ¿Le sirve alguna de esas?
+
+## 3. Viernes tarde
+- **Cliente:** ¿Hasta qué hora puedo reservar el viernes? Somos 4
+- **Sofía:** El viernes puede reservar hasta las 10:00 p.m. para 4 personas. ¿A qué hora le gustaría?
+
+## 4. Disponibilidad sin hora
+- **Cliente:** ¿Tienen espacio el viernes?
+- **Sofía:** Sí, para el viernes 27 hay espacio. ¿A qué hora y para cuántas personas sería?
+
+## 5. Grupo de 25
+- **Cliente:** Hola, somos 25 personas para la fiesta de fin de año de la empresa
+- **Sofía:** Gracias por escribirnos. Para un grupo de 25 personas, el equipo le ayuda a coordinarlo directamente y revisar disponibilidad y condiciones especiales. En breve le contactamos por este medio.
+
+## 6. Fuera de tema
+- **Cliente:** ¿Cuánto es 15% de 340?
+- **Sofía:** 15% de 340 es 51.
+
+## 7. Parqueo
+- **Cliente:** ¿Tienen parqueo?
+- **Sofía:** Sí, tenemos parqueo. Si gusta, también le comparto la ubicación para llegar más fácil.
+
+## 8. Mascotas
+- **Cliente:** ¿Puedo llevar a mi perro?
+- **Sofía:** Sí, en la terraza suelen recibir mascotas. Si quiere, le ayudo a apartar mesa y lo anotamos para el equipo.
+
+## 9. Horario domingo
+- **Cliente:** ¿A qué hora abren el domingo?
+- **Sofía:** El domingo abrimos de 12:00 m.d. a 9:00 p.m.
+
+## 10. Alergia
+- **Cliente:** Soy celíaca, ¿los tacos gobernador tienen gluten?
+- **Sofía:** Los tacos gobernador llevan queso, camarones ahumados, aguacate y mayonesa de chipotle. No veo en la información disponible que incluyan gluten, pero como no tengo confirmación de cocina sobre contaminación cruzada, lo mejor es que una persona del equipo se lo confirme.
+
+## 11. Inglés reserva
+- **Cliente:** Hi, can I book a table for 3 tomorrow at 7pm?
+- **Sofía:** Sí, hay disponibilidad mañana a las 7:00 p.m. ¿Me comparte su nombre completo para apartarle la mesa?
+
+## 12. Pide humano
+- **Cliente:** Quiero hablar con María José
+- **Sofía:** Claro, le ayudo a pasarlo con el equipo para que le atiendan directamente.
