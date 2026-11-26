@@ -17,3 +17,9 @@ body { @apply bg-background text-foreground font-body antialiased; }
   animation: grain 1s steps(6) infinite; }
 @keyframes grain { 0%{transform:translate(0,0)} 20%{transform:translate(-3%,2%)} 40%{transform:translate(2%,-3%)} 60%{transform:translate(-2%,3%)} 80%{transform:translate(3%,1%)} 100%{transform:translate(0,0)} }
 ::selection { background: #EF5C32; color: #fff; }
+
+/* Sofía chat widget (CRM): Tailwind's preflight makes inputs inherit the page's
+   light text colour, which is invisible on the widget's white panel. */
+#cbw-chat-root { color: #1a1612; }
+#cbw-chat-root #cbw-input { color: #1a1612; background: #fff; }
+#cbw-chat-root #cbw-input::placeholder { color: #8a8378; opacity: 1; }
