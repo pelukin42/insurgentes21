@@ -1,0 +1,2 @@
+/api/reservas/*  https://crm-insurgentes.axelsites.com/api/v1/reservas-publico/:splat  200!
+/api/reservas    https://crm-insurgentes.axelsites.com/api/v1/reservas-publico         200!
