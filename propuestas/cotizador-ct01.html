@@ -52,6 +52,10 @@ section { margin-top: 44px; }
 .tbl .d { display: block; font-size: 13px; color: var(--muted); margin-top: 2px; }
 .tbl tr.off td { color: var(--soft); text-decoration: line-through; }
 .tbl tr.off .d { text-decoration: none; }
+.steps .mes { display: block; }
+.steps .mes + .mes { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); }
+.steps .mes[style*="none"] + .mes, body.print-2 .steps .mes { margin-top: 0; padding-top: 0; border-top: 0; }
+.steps .mes small { display: block; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 .tbl tr.opt-off td.num { color: var(--muted); font-style: italic; }
 .tbl tr.sum td { font-family: var(--sans); font-weight: 700; border-bottom: 0; }
 .tbl tr.total td { font-family: var(--sans); font-weight: 800; font-size: 18px; border-top: 2px solid var(--ink); border-bottom: 0; }
@@ -166,7 +170,7 @@ body.ver-interno .interno { display: block; }
         <tr data-m="sitio"><td><label class="chk"><input type="checkbox" id="m-sitio" checked><span><b>Sitio web de experiencia</b><span class="d">Ya desarrollado y en revisión en insurgentes21.netlify.app. Bilingüe, carta completa, eventos, reseñas y estadísticas. Dominio insurgentes21.com del restaurante.</span></span></label></td><td class="num" data-v="680"></td></tr>
         <tr data-m="crm"><td><span class="chk"><span><b>CRM omnicanal + agente de texto con IA</b><span class="fixed-tag">base</span><span class="d">Servidor propio, bandeja única, WhatsApp con el mismo número, Instagram, Messenger, chat web y correo. Asistente entrenado con la carta y las políticas de la casa.</span></span></span></td><td class="num" data-v="1000"></td></tr>
         <tr data-m="voz"><td><label class="chk"><input type="checkbox" id="m-voz" checked><span><b>Agente de voz</b><span class="d">Atiende llamadas en español e inglés, responde dudas, toma reservas y pasa la llamada a una persona cuando hace falta.</span></span></label></td><td class="num" data-v="600"></td></tr>
-        <tr data-m="res"><td><label class="chk"><input type="checkbox" id="m-res" checked><span><b>Sistema propio de reservas</b><span class="d">Plano de mesas y turnos, panel para la recepción, confirmación y recordatorio por WhatsApp, lista de espera, registro de no-shows y botón de reservar en el sitio.</span></span></label></td><td class="num" data-v="1200"></td></tr>
+        <tr data-m="res"><td><label class="chk"><input type="checkbox" id="m-res" checked><span><b>Sistema propio de reservas</b><span class="d">Plano de mesas y turnos, panel para la recepción, confirmación por WhatsApp, recordatorio opcional (con costo de Meta, ver abajo), lista de espera, registro de no-shows y botón de reservar en el sitio.</span></span></label></td><td class="num" data-v="1200"></td></tr>
         <tr data-m="int"><td><span class="chk"><span><b>Integración entre sistemas</b><span class="d">Los agentes de voz y de texto reservan directo en el sistema propio y todo queda en el historial del cliente.</span></span></span></td><td class="num" data-v="200"></td></tr>
         <tr class="sum"><td>Suma de módulos</td><td class="num" id="iLista"></td></tr>
         <tr class="disc" id="rowDesc"><td>Descuento por paquete completo</td><td class="num" id="iDesc"></td></tr>
@@ -346,7 +350,9 @@ body.ver-interno .interno { display: block; }
 
     // costos de proveedores (bajo, alto)
     var ia = [conv * 30 * IA[0], conv * 30 * IA[1]];
-    var recor = $("m-recor").checked;
+    $("m-recor").disabled = !on.res;
+    if (!on.res) $("m-recor").checked = false;
+    var recor = $("m-recor").checked && on.res;
     var meta = recor ? [resv * 2 * META[0], resv * 2 * META[1]] : [0, 0];
     var voz = [min * VOZ[0], min * VOZ[1]];
     var prov = [FIJO[0] + ia[0] + meta[0] + voz[0], FIJO[1] + ia[1] + meta[1] + voz[1]];
@@ -427,8 +433,10 @@ body.ver-interno .interno { display: block; }
     var x = sis * (1 + IVA) / 2;
     h += row("Sistemas · al arrancar", "50% para el servidor e iniciar la instalación", x);
     h += row("Sistemas · al activar", "50% contra los agentes atendiendo en automático", x);
+    var prov2 = [prov[0] + ivaB[0], prov[1] + ivaB[1]];
     h += '<div><span class="when">Cada mes</span><span>Desde la activación de los canales</span><span class="num">' +
-      '<span class="solo-1">' + money(e1 * (1 + IVA)) + '</span>' + '<span class="solo-2">' + money(mantIva) + ' + proveedores</span></span></div>';
+      '<span class="solo-1 mes"><small>Escenario 1 · monto fijo con IVA</small>' + money(e1 * (1 + IVA)) + '</span>' +
+      '<span class="solo-2 mes"><small>Escenario 2 · estimado</small>' + money(mantIva) + ' a AxelSites<br>+ ' + rng(prov2[0], prov2[1]) + ' de proveedores<br>= ' + rng(e2[0], e2[1]) + '</span></span></div>';
     $("steps").innerHTML = h;
     syncPick();
   }
