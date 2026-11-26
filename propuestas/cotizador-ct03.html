@@ -201,12 +201,11 @@ body.ver-interno .interno { display: block; }
         <p style="margin:0;font-size:14.5px">AxelSites paga y administra todos los proveedores. El restaurante recibe una factura por el mismo monto cada mes.</p>
         <div class="big"><span id="e1Tot"></span> <small>/ mes con IVA</small></div>
         <table class="tbl prov">
-          <tr><td>Mantenimiento AxelSites<span class="d">Detalle de servicios abajo</span></td><td class="num" id="e1Mant"></td></tr>
-          <tr><td>Servidor y conector de mensajería <span class="est">estimado</span><span class="d">Servidor propio del CRM y reservas; conexión de WhatsApp, Instagram y Messenger</span></td><td class="num" id="e1Fijo"></td></tr>
+                    <tr><td>Servidor y conector de mensajería <span class="est">estimado</span><span class="d">Servidor propio del CRM y reservas; conexión de WhatsApp, Instagram y Messenger</span></td><td class="num" id="e1Fijo"></td></tr>
           <tr><td>IA del agente de texto <span class="est">estimado</span><span class="d" id="e1IaD"></span></td><td class="num" id="e1Ia"></td></tr>
           <tr><td>Tarifas de Meta (WhatsApp) <span class="est">estimado</span><span class="d" id="e1MetaD"></span></td><td class="num" id="e1Meta"></td></tr>
           <tr class="solo-voz"><td>Voz, hasta 1.800 min incluidos <span class="est">estimado</span><span class="d" id="e1VozD"></span></td><td class="num" id="e1Voz"></td></tr>
-          <tr><td>Administración de proveedores y reserva para meses fuertes<span class="d">Pagos al exterior, tipo de cambio y picos como diciembre</span></td><td class="num" id="e1Res"></td></tr>
+          <tr><td>Mantenimiento, administración y soporte<span class="d">Servicios de mantenimiento detallados abajo, pago y gestión de los proveedores del exterior, tipo de cambio y cobertura de meses fuertes como diciembre</span></td><td class="num" id="e1Res"></td></tr>
           <tr class="sum"><td>Plan todo incluido · sin IVA</td><td class="num" id="e1Base"></td></tr>
           <tr class="solo-voz" id="e1ExRow"><td>Minutos extra estimados <span class="d" id="e1ExD"></span></td><td class="num" id="e1Ex"></td></tr>
           <tr><td>IVA 13%</td><td class="num" id="e1Iva"></td></tr>
@@ -358,9 +357,8 @@ body.ver-interno .interno { display: block; }
     var mid = function (r) { return (r[0] + r[1]) / 2; };
     var vozInc = Math.min(min, MIN_INC);
     var vozMid = vozInc * mid(VOZ);
-    var resv1 = Math.max(0, base - mant - mid(FIJO) - mid(ia) - mid(meta) - vozMid);
-    $("e1Mant").textContent = money(mant);
-    $("e1Fijo").textContent = money(mid(FIJO));
+    var resv1 = Math.max(0, base - mid(FIJO) - mid(ia) - mid(meta) - vozMid);
+        $("e1Fijo").textContent = money(mid(FIJO));
     $("e1Ia").textContent = money(mid(ia));
     $("e1Meta").textContent = money(mid(meta));
     $("e1Voz").textContent = money(vozMid);
