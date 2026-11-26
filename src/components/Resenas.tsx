@@ -30,13 +30,13 @@ export default function Resenas() {
         <h2 key={lang} ref={title} className="invisible font-accent text-[44px] md:text-[6vw] leading-[0.95] tracking-[-0.03em]">{t(["Lo que dice la mesa", "What our guests say"])}</h2>
         <div className="mt-10 flex flex-wrap justify-center gap-4">
           {ratings.map((r) => (
-            <a key={r.source} href={r.href} target="_blank" rel="noreferrer" className="r-in flex items-center gap-4 px-6 py-4 border border-black/15 hover:border-[#EF5C32] transition-colors">
+            <div key={r.source} className="r-in flex items-center gap-4 px-6 py-4 border border-black/15">
               <span className="font-accent text-[40px] leading-none">{r.score}</span>
               <span className="text-left">
                 <Stars n={5} />
                 <span className="block text-[11px] tracking-[0.2em] uppercase text-black/50 mt-1">{r.source} · {t(r.count)}</span>
               </span>
-            </a>
+            </div>
           ))}
           <a href={INFO.googleReviews} target="_blank" rel="noreferrer" className="r-in flex items-center gap-3 px-6 py-4 border border-black/15 hover:border-[#EF5C32] transition-colors text-[13px] tracking-wide">
             {t(["Ver reseñas en Google", "Read our Google reviews"])} <ArrowUpRight className="w-4 h-4" />

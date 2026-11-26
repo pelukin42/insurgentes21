@@ -2,5 +2,17 @@
   command = "npm run build"
   publish = "dist"
 
+[[redirects]]
+  from = "/api/reservas/*"
+  to = "https://crm-insurgentes.axelsites.com/api/v1/reservas-publico/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/reservas"
+  to = "https://crm-insurgentes.axelsites.com/api/v1/reservas-publico"
+  status = 200
+  force = true
+
 [build.environment]
   NODE_VERSION = "22"

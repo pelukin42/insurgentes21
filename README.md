@@ -39,13 +39,14 @@ https://pelukin42.github.io/insurgentes21/ — requiere *Settings → Pages → 
 1. En analytics.google.com crear una propiedad *Insurgentes 21* → flujo web → copiar el ID `G-XXXXXXX`.
 2. En GitHub: *Settings → Secrets and variables → Actions → Variables* → nueva variable `GA_ID` con ese ID.
 3. Hacer push a `main` (o *Run workflow*). Sin `GA_ID` el sitio no carga Analytics.
-4. En GA4 → *Admin → Eventos clave*, marcar como conversión: `reserva_opentable`, `whatsapp`, `cotizar_evento`, `llamada`.
+4. En GA4 → *Admin → Eventos clave*, marcar como conversión: `reserva_crm`, `whatsapp`, `cotizar_evento`, `llamada`.
 
 Eventos que manda el sitio (`src/analytics.ts`), cada clic con `area` = sección donde ocurrió:
 
 | Evento | Cuándo |
 |---|---|
-| `reserva_opentable` | clic en reservar (OpenTable) |
+| `reserva_click` | clic en "Reservá tu mesa" |
+| `reserva_crm` | reserva enviada al sistema de reservas del CRM |
 | `whatsapp` / `cotizar_evento` | clic en WhatsApp / en "Cotizá tu evento" |
 | `menu_pdf`, `carta_abierta`, `carta_categoria` | descarga del PDF, abre la carta completa, toca una categoría |
 | `resena_google`, `ver_resenas_google` | va a dejar / leer reseñas en Google |

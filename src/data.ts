@@ -2,7 +2,7 @@ import { asset } from "./asset";
 import type { T } from "./i18n";
 /**
  * Content for the site. Business facts come from the brand dossier
- * (Instagram @insurgentes_21 + OpenTable + insurgentes21.com, Nov 2026).
+ * (Instagram @insurgentes_21 + insurgentes21.com, Nov 2026).
  * Text shown to visitors is a T: either a plain string or [español, English].
  */
 const p = (s: string) => asset(`/img/${s}`);
@@ -19,10 +19,11 @@ export const INFO = {
   city: "San Rafael de Escazú, San José, Costa Rica",
   phone: "+506 8455-1228",
   whatsapp: "https://wa.me/50684551228",
+  /** WhatsApp that receives quote requests (Alberto). Change the number here. */
+  cotizaciones: "https://wa.me/50684551228",
   instagram: "https://www.instagram.com/insurgentes_21/",
   maps: "https://maps.app.goo.gl/eSsCXKzh5Vwb2xMC8",
   waze: "https://waze.com/ul?ll=9.93646,-84.14368&navigate=yes",
-  opentable: "https://www.opentable.com.au/r/insurgentes-21-san-rafael-de-escazu",
   googlePlaceId: "ChIJbTNk4M_9oI8RBYgHPz81aUM",
   googleReview: "https://search.google.com/local/writereview?placeid=ChIJbTNk4M_9oI8RBYgHPz81aUM",
   googleReviews: "https://search.google.com/local/reviews?placeid=ChIJbTNk4M_9oI8RBYgHPz81aUM",
@@ -77,8 +78,9 @@ export const menu: { left: NavItem[]; right: NavItem[] } = {
       { label: ["Eventos privados", "Private events"], href: "#privados" },
     ] },
     { label: ["Reservá", "Book"], href: "#visitanos", items: [
-      { label: ["Reservar en OpenTable", "Book on OpenTable"], href: INFO.opentable },
+      { label: ["Reservar mesa", "Book a table"], href: "#reservar" },
       { label: ["Salón VIP y eventos privados", "VIP room & private events"], href: "#privados" },
+      { label: ["Cotizar un evento", "Get an event quote"], href: "#cotizar" },
       { label: "WhatsApp", href: INFO.whatsapp },
       { label: ["Cómo llegar", "Directions"], href: INFO.maps },
       { label: "Instagram", href: INFO.instagram },
@@ -148,14 +150,13 @@ export const recurring: { when: T; title: T; desc: T; img: string; cta: T; href:
 ];
 
 /**
- * Real guest reviews, copied by hand from Google / OpenTable / TripAdvisor
+ * Real guest reviews, copied by hand from Google / TripAdvisor
  * (never invent them). The quote carousel only shows when this has entries, e.g.:
  *   { quote: "El short rib es de otro planeta…", author: "María G.", source: "Google", stars: 5 },
  */
-export type Review = { quote: string; author: string; source: "Google" | "OpenTable" | "TripAdvisor"; stars: number };
+export type Review = { quote: string; author: string; source: "Google" | "TripAdvisor"; stars: number };
 export const reviews: Review[] = [];
 
 /** Rating badges. Only list numbers that are current on the platform. */
-export const ratings: { source: string; score: string; count: T; href: string }[] = [
-  { source: "OpenTable", score: "4,7", count: ["147 reseñas", "147 reviews"], href: INFO.opentable },
+export const ratings: { source: string; score: string; count: T }[] = [
 ];

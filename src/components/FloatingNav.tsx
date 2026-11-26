@@ -3,7 +3,7 @@ import { INFO } from "../data";
 import { useLang } from "../i18n";
 
 const items = [
-  { icon: CalendarDays, label: ["Reservá tu mesa", "Book a table"] as const, href: INFO.opentable },
+  { icon: CalendarDays, label: ["Reservá tu mesa", "Book a table"] as const, href: "#reservar" },
   { icon: MessageCircle, label: "WhatsApp", href: INFO.whatsapp },
   { icon: Instagram, label: "Instagram", href: INFO.instagram },
 ];

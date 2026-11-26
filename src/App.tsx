@@ -14,12 +14,14 @@ import Visit from "./components/Visit";
 import Eventos from "./components/Eventos";
 import FullMenu from "./components/FullMenu";
 import Resenas from "./components/Resenas";
+import Reservar from "./components/Reservar";
+import Cotizar from "./components/Cotizar";
 
 export default function App() {
   useEffect(observeSections, []);
   return (
     <main>
-      <Navbar /><FloatingNav /><Hero /><Gallery /><About /><Carta /><Cocteleria /><WineBand /><Eventos /><Experience /><Resenas /><Visit /><Footer /><FullMenu />
+      <Navbar /><FloatingNav /><Hero /><Gallery /><About /><Carta /><Cocteleria /><WineBand /><Eventos /><Cotizar /><Experience /><Resenas /><Reservar /><Visit /><Footer /><FullMenu />
       <div className="grain" aria-hidden />
     </main>
   );
