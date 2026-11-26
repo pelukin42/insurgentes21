@@ -22,7 +22,6 @@ export const INFO = {
   instagram: "https://www.instagram.com/insurgentes_21/",
   maps: "https://maps.app.goo.gl/eSsCXKzh5Vwb2xMC8",
   waze: "https://waze.com/ul?ll=9.93646,-84.14368&navigate=yes",
-  opentable: "https://www.opentable.com.au/r/insurgentes-21-san-rafael-de-escazu",
   googlePlaceId: "ChIJbTNk4M_9oI8RBYgHPz81aUM",
   googleReview: "https://search.google.com/local/writereview?placeid=ChIJbTNk4M_9oI8RBYgHPz81aUM",
   googleReviews: "https://search.google.com/local/reviews?placeid=ChIJbTNk4M_9oI8RBYgHPz81aUM",
@@ -77,7 +76,6 @@ export const menu: { left: NavItem[]; right: NavItem[] } = {
       { label: ["Eventos privados", "Private events"], href: "#privados" },
     ] },
     { label: ["Reservá", "Book"], href: "#visitanos", items: [
-      { label: ["Reservar en OpenTable", "Book on OpenTable"], href: INFO.opentable },
       { label: ["Salón VIP y eventos privados", "VIP room & private events"], href: "#privados" },
       { label: "WhatsApp", href: INFO.whatsapp },
       { label: ["Cómo llegar", "Directions"], href: INFO.maps },
@@ -156,6 +154,6 @@ export type Review = { quote: string; author: string; source: "Google" | "OpenTa
 export const reviews: Review[] = [];
 
 /** Rating badges. Only list numbers that are current on the platform. */
-export const ratings: { source: string; score: string; count: T; href: string }[] = [
-  { source: "OpenTable", score: "4,7", count: ["147 reseñas", "147 reviews"], href: INFO.opentable },
+export const ratings: { source: string; score: string; count: T }[] = [
+  { source: "OpenTable", score: "4,7", count: ["147 reseñas", "147 reviews"] },
 ];

@@ -1,9 +1,8 @@
-import { CalendarDays, Instagram, MessageCircle } from "lucide-react";
+import { Instagram, MessageCircle } from "lucide-react";
 import { INFO } from "../data";
 import { useLang } from "../i18n";
 
 const items = [
-  { icon: CalendarDays, label: ["Reservá tu mesa", "Book a table"] as const, href: INFO.opentable },
   { icon: MessageCircle, label: "WhatsApp", href: INFO.whatsapp },
   { icon: Instagram, label: "Instagram", href: INFO.instagram },
 ];

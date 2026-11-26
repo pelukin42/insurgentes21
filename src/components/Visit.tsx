@@ -52,10 +52,6 @@ export default function Visit() {
         </div>
 
         <div className="v-line flex flex-wrap gap-4 mt-10">
-          <a href={INFO.opentable} target="_blank" rel="noreferrer"
-            className="group inline-flex items-center gap-3 px-8 py-4 bg-black text-white font-manrope text-sm tracking-wide hover:bg-[#EF5C32] transition-colors duration-300">
-            {t(["Reservá en OpenTable", "Book on OpenTable"])} <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </a>
           <a href={INFO.whatsapp} target="_blank" rel="noreferrer"
             className="inline-flex items-center gap-3 px-8 py-4 border border-black/20 font-manrope text-sm tracking-wide hover:border-[#EF5C32] hover:text-[#EF5C32] transition-colors duration-300">
             <MessageCircle className="w-4 h-4" /> WhatsApp
