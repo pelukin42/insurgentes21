@@ -3,14 +3,14 @@
   publish = "dist"
 
 [[redirects]]
-  from = "/api/reservas/*"
-  to = "https://crm-insurgentes.axelsites.com/api/v1/reservas-publico/:splat"
+  from = "/api/reservas"
+  to = "https://crm-insurgentes.axelsites.com/api/v1/reservas-publico"
   status = 200
   force = true
 
 [[redirects]]
-  from = "/api/reservas"
-  to = "https://crm-insurgentes.axelsites.com/api/v1/reservas-publico"
+  from = "/api/reservas/*"
+  to = "https://crm-insurgentes.axelsites.com/api/v1/reservas-publico/:splat"
   status = 200
   force = true
 
