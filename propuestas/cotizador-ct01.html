@@ -56,6 +56,20 @@ section { margin-top: 44px; }
 .steps .mes + .mes { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); }
 .steps .mes[style*="none"] + .mes, body.print-2 .steps .mes { margin-top: 0; padding-top: 0; border-top: 0; }
 .steps .mes small { display: block; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.tbl.cmp td.c1, .tbl.cmp td.c2, .tbl.cmp th.c1, .tbl.cmp th.c2 { text-align: right; white-space: nowrap; padding-left: 14px; vertical-align: top; }
+.tbl.cmp tr.grp td { text-align: left; padding-left: 0; font: 500 10.5px/1.3 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--muted); padding-top: 18px; }
+.tbl.cmp .na { color: var(--muted); font-style: italic; }
+@media print { body.print-1 .tbl.cmp .c2, body.print-2 .tbl.cmp .c1 { display: none; } }
+@media screen and (max-width: 640px) {
+  .tbl.cmp thead { display: none; }
+  .tbl.cmp tr:not(.grp) { display: grid; grid-template-columns: 1fr 1fr; column-gap: 12px; border-bottom: 1px solid var(--line); padding: 10px 0; }
+  .tbl.cmp tr:not(.grp) td { border: 0; padding: 0; }
+  .tbl.cmp tr:not(.grp) td:first-child { grid-column: 1 / -1; margin-bottom: 6px; }
+  .tbl.cmp td.c1, .tbl.cmp td.c2 { text-align: left; white-space: normal; }
+  .tbl.cmp td.c1::before, .tbl.cmp td.c2::before { display: block; font: 500 9.5px/1.4 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-style: normal; }
+  .tbl.cmp td.c1::before { content: "Escenario 1"; }
+  .tbl.cmp td.c2::before { content: "Escenario 2"; }
+}
 .tbl tr.opt-off td.num { color: var(--muted); font-style: italic; }
 .tbl tr.sum td { font-family: var(--sans); font-weight: 700; border-bottom: 0; }
 .tbl tr.total td { font-family: var(--sans); font-weight: 800; font-size: 18px; border-top: 2px solid var(--ink); border-bottom: 0; }
@@ -206,20 +220,7 @@ body.ver-interno .interno { display: block; }
         <h3>Una sola mensualidad fija</h3>
         <p style="margin:0;font-size:14.5px">AxelSites paga y administra todos los proveedores. El restaurante recibe una factura por el mismo monto cada mes.</p>
         <div class="big"><span id="e1Tot"></span> <small>/ mes con IVA</small></div>
-        <table class="tbl prov">
-                    <tr><td>Servidor y conector de mensajería <span class="est">estimado</span><span class="d">Servidor propio del CRM y reservas; conexión de WhatsApp, Instagram y Messenger</span></td><td class="num" id="e1Fijo"></td></tr>
-          <tr><td>IA del agente de texto <span class="est">estimado</span><span class="d" id="e1IaD"></span></td><td class="num" id="e1Ia"></td></tr>
-          <tr id="e1MetaRow"><td>Tarifas de Meta (WhatsApp) <span class="est">opcional</span><span class="d" id="e1MetaD"></span></td><td class="num" id="e1Meta"></td></tr>
-          <tr class="solo-voz"><td>Voz, hasta 1.800 min incluidos <span class="est">estimado</span><span class="d" id="e1VozD"></span></td><td class="num" id="e1Voz"></td></tr>
-          <tr><td>Mantenimiento AxelSites<span class="d">El mismo servicio del escenario 2: <span id="e1MantIva"></span> con IVA. Detalle de lo que incluye, abajo</span></td><td class="num" id="e1Mant"></td></tr>
-          <tr><td>IVA bancario de los proveedores del exterior <span class="est">estimado</span><span class="d">El 13% que cobra el banco al pagar servicios digitales del exterior. En el escenario 2 lo paga el restaurante con su tarjeta</span></td><td class="num" id="e1IvaB"></td></tr>
-          <tr><td>Cobertura de consumo<span class="d">Si un mes trae más conversaciones o llamadas de lo estimado (por ejemplo diciembre), AxelSites absorbe la diferencia hasta el tope del rango estimado. El restaurante no paga de más</span></td><td class="num" id="e1Cob"></td></tr>
-          <tr id="e1AdmRow"><td>Administración y cuenta única<span class="d">Pagar y conciliar 3 o 4 proveedores del exterior con tarjeta de AxelSites, asumir el tipo de cambio, una sola factura al mes en colones o dólares y revisión del monto a los 3 meses</span></td><td class="num" id="e1Adm"></td></tr>
-          <tr class="sum"><td>Plan todo incluido · sin IVA</td><td class="num" id="e1Base"></td></tr>
-          <tr class="solo-voz" id="e1ExRow"><td>Minutos extra estimados <span class="d" id="e1ExD"></span></td><td class="num" id="e1Ex"></td></tr>
-          <tr><td>IVA 13%</td><td class="num" id="e1Iva"></td></tr>
-        </table>
-        <p class="est-note">Los rubros marcados "estimado" dependen del volumen real de llamadas y mensajes, que hoy no se ha medido.</p>
+        <p class="est-note">Desglose lado a lado con el escenario 2, debajo de las dos opciones.</p>
         <div class="incl"><span class="label">Qué incluye el mantenimiento AxelSites</span><ul>
 <li><b>Revisión semanal</b> de conversaciones y llamadas, y corrección de respuestas de los agentes.</li>
 <li><b>Actualización de contenido</b>: carta, precios, horarios, eventos y promociones en el sitio, el agente de texto y el de voz.</li>
@@ -231,7 +232,6 @@ body.ver-interno .interno { display: block; }
 </ul></div>
         <ul class="pros"><li>Monto fijo y predecible, en colones o dólares.</li><li>No registran tarjetas en proveedores del exterior.</li><li>Mantenimiento, monitoreo, soporte y reporte mensual incluidos.</li></ul>
         <ul class="cons"><li class="solo-voz">Los minutos de voz por encima del plan se cobran a $0,20 + IVA cada uno.</li><li>El monto se revisa a los 3 meses con el volumen real medido.</li></ul>
-        <p class="est-note" id="e1Cmp"></p>
         <div class="interno" id="e1Int"></div>
         <button class="pick" type="button" data-pick="1">Elegir escenario 1</button>
       </article>
@@ -240,16 +240,8 @@ body.ver-interno .interno { display: block; }
         <span class="label">Escenario 2 · pago por consumo</span>
         <h3>Mantenimiento fijo, proveedores directo</h3>
         <p style="margin:0;font-size:14.5px">AxelSites cobra solo el mantenimiento. Los proveedores se pagan con la tarjeta del restaurante, a su nombre y según lo que se use.</p>
-        <div class="big"><span id="e2Rng"></span> <small>/ mes estimado</small></div>
-        <table class="tbl prov">
-          <tr><td>Mantenimiento AxelSites · con IVA<span class="d">Detalle de servicios abajo. Único monto que factura AxelSites</span></td><td class="num" id="e2Mant"></td></tr>
-          <tr><td>Servidor y conector de mensajería <span class="est">estimado</span><span class="d">Servidor propio del CRM y reservas; conexión de WhatsApp, Instagram y Messenger</span></td><td class="num" id="e2Fijo"></td></tr>
-          <tr><td>IA del agente de texto <span class="est">estimado</span><span class="d" id="e2IaD"></span></td><td class="num" id="e2Ia"></td></tr>
-          <tr id="e2MetaRow"><td>Tarifas de Meta (WhatsApp) <span class="est">opcional</span><span class="d" id="e2MetaD"></span></td><td class="num" id="e2Meta"></td></tr>
-          <tr class="solo-voz"><td>Voz <span class="est">estimado</span><span class="d" id="e2VozD"></span></td><td class="num" id="e2Voz"></td></tr>
-          <tr><td>IVA del banco por servicios digitales del exterior (13%) <span class="est">estimado</span></td><td class="num" id="e2IvaB"></td></tr>
-        </table>
-        <p class="est-note">Los rubros marcados "estimado" dependen del volumen real de llamadas y mensajes, que hoy no se ha medido.</p>
+        <div class="big"><span id="e2Rng"></span> <small>/ mes estimado con IVA</small></div>
+        <p class="est-note">Desglose lado a lado con el escenario 1, debajo de las dos opciones.</p>
         <div class="incl"><span class="label">Qué incluye el mantenimiento AxelSites</span><ul>
 <li><b>Revisión semanal</b> de conversaciones y llamadas, y corrección de respuestas de los agentes.</li>
 <li><b>Actualización de contenido</b>: carta, precios, horarios, eventos y promociones en el sitio, el agente de texto y el de voz.</li>
@@ -265,6 +257,16 @@ body.ver-interno .interno { display: block; }
       </article>
 
     </div>
+
+    <div class="sec-head" style="margin-top:28px"><h2>Desglose mensual, lado a lado</h2><span class="label">Mismos rubros, en el mismo orden</span></div>
+    <div class="tbl-wrap">
+    <table class="tbl cmp">
+      <thead><tr><th>Rubro</th><th class="c1">Escenario 1<br>monto fijo</th><th class="c2">Escenario 2<br>por consumo</th></tr></thead>
+      <tbody id="cmpBody"></tbody>
+    </table>
+    </div>
+    <p class="est-note" style="margin-top:10px">Los rubros marcados "estimado" dependen del volumen real de llamadas y mensajes, que hoy no se ha medido. En el escenario 1 se muestra el valor medio del rango; en el 2, el rango completo.</p>
+    <p class="est-note" id="e1Cmp" style="margin-top:6px"></p>
     <p class="note" style="margin-top:14px">Precios de proveedores estimados con tarifas típicas de 2026: voz entre $0,10 y $0,15 por minuto, IA entre $0,01 y $0,05 por conversación, Meta cerca de $0,01 por recordatorio, solo si se activan los recordatorios (opcional). Contestar a un cliente que escribe primero no tiene costo de Meta. Las promociones masivas por WhatsApp no están incluidas.</p>
   </section>
 
@@ -372,36 +374,12 @@ body.ver-interno .interno { display: block; }
     var vozInc = Math.min(min, MIN_INC);
     var vozMid = vozInc * mid(VOZ);
     var resv1 = Math.max(0, base - mid(FIJO) - mid(ia) - vozMid);
-        $("e1Fijo").textContent = money(mid(FIJO));
-    $("e1Ia").textContent = money(mid(ia));
-    $("e1Meta").textContent = recor ? money(metaE1) : "No incluido";
-    $("e1Voz").textContent = money(vozMid);
-    // Desglose de lo que no es proveedor: mantenimiento, IVA bancario, cobertura y administración.
+    // Lo que no es proveedor en el escenario 1: mantenimiento, IVA bancario, cobertura y gestión.
     var tope = FIJO[1] + ia[1] + vozInc * VOZ[1];
     var ivaBanco1 = Math.min(resv1 - mant, tope * IVA);
     var cob1 = Math.min(resv1 - mant - ivaBanco1, (FIJO[1] - mid(FIJO)) + (ia[1] - mid(ia)) + vozInc * (VOZ[1] - mid(VOZ)));
-    var adm1 = resv1 - mant - ivaBanco1 - cob1;
-    $("e1Mant").textContent = money(mant);
-    $("e1MantIva").textContent = money(mant * (1 + IVA));
-    $("e1IvaB").textContent = money(ivaBanco1);
-    $("e1Cob").textContent = money(cob1);
-    $("e1Adm").textContent = money(adm1);
-    $("e1AdmRow").hidden = adm1 < 0.005;
-    var iaTxt = int(conv * 30) + " conversaciones al mes × $0,01–0,05 cada una";
-    var metaTxt = recor
-      ? int(resv * 2) + " recordatorios y pedidos de reseña × ~$0,01. Se suma solo porque se activaron los recordatorios"
-      : "Solo si Insurgentes decide enviar recordatorios o pedidos de reseña (≈ $0,01 c/u). Responder a quien escribe primero no tiene costo";
-    $("e1IaD").textContent = iaTxt; $("e2IaD").textContent = iaTxt;
-    $("e1MetaD").textContent = metaTxt; $("e2MetaD").textContent = metaTxt;
-    $("e1VozD").textContent = int(vozInc) + " min × ~$0,125 (llamadas en español e inglés)";
-    $("e1Base").textContent = money(base + metaE1);
-    ["e1MetaRow", "e2MetaRow"].forEach(function (id) { $(id).classList.toggle("opt-off", !recor); });
-    $("e1ExRow").hidden = !on.voz || extraMin === 0;
-    $("e1ExD").textContent = int(extraMin) + " min × $0,20";
-    $("e1Ex").textContent = money(extra);
-    $("e1Iva").textContent = money(e1 * IVA);
+    var adm1 = Math.max(0, resv1 - mant - ivaBanco1 - cob1);
     $("e1Tot").textContent = money(e1 * (1 + IVA));
-    var costo = [mant + prov[0] + extraMin * 0, mant + prov[1]];
     $("e1Int").innerHTML = "<b>Solo para vos.</b> Tu costo: mantenimiento " + money(mant, 0) + " + proveedores " + rng(prov[0], prov[1]) +
       " = " + rng(mant + prov[0], mant + prov[1]) + ".<br>Margen sobre el mantenimiento: <b>" + rng(e1 - (mant + prov[1]), e1 - (mant + prov[0])) + "</b> al mes." +
       ((e1 - (mant + prov[1])) < 0 ? "<br><span style='color:var(--accent)'>Con este volumen el plan puede quedar en pérdida: subí el monto fijo o bajá los minutos incluidos.</span>" : "");
@@ -409,17 +387,38 @@ body.ver-interno .interno { display: block; }
     // escenario 2
     var mantIva = mant * (1 + IVA);
     var ivaB = [prov[0] * IVA, prov[1] * IVA];
-    $("e2Mant").textContent = money(mantIva);
-    $("e2Fijo").textContent = rng(FIJO[0], FIJO[1]);
-    $("e2Ia").textContent = rng(ia[0], ia[1]);
-    $("e2Meta").textContent = recor ? rng(meta[0], meta[1]) : "No incluido";
-    $("e2VozD").textContent = int(min) + " min × $0,10–0,15";
-    $("e2Voz").textContent = rng(voz[0], voz[1]);
-    $("e2IvaB").textContent = rng(ivaB[0], ivaB[1]);
     var e2 = [mantIva + prov[0] + ivaB[0], mantIva + prov[1] + ivaB[1]];
     $("e2Rng").textContent = rng(e2[0], e2[1]);
+
+    // desglose lado a lado: mismos rubros, mismo orden
+    var EST = ' <span class="est">estimado</span>', OPC = ' <span class="est">opcional</span>';
+    var NA = '<span class="na">No aplica</span>';
+    function fila(titulo, desc, v1, v2, cls) {
+      return '<tr' + (cls ? ' class="' + cls + '"' : '') + '><td>' + titulo + (desc ? '<span class="d">' + desc + '</span>' : '') +
+        '</td><td class="num c1">' + v1 + '</td><td class="num c2">' + v2 + '</td></tr>';
+    }
+    function grupo(t) { return '<tr class="grp"><td colspan="3">' + t + '</td></tr>'; }
+    var b = grupo("Proveedores · servicios de terceros");
+    b += fila("Servidor y conector de mensajería" + EST, "Servidor propio del CRM y reservas; conexión de WhatsApp, Instagram y Messenger", money(mid(FIJO)), rng(FIJO[0], FIJO[1]));
+    b += fila("IA del agente de texto" + EST, int(conv * 30) + " conversaciones al mes × $0,01–0,05 cada una", money(mid(ia)), rng(ia[0], ia[1]));
+    if (on.voz) b += fila("Voz" + EST, int(min) + " min al mes × $0,10–0,15. El escenario 1 incluye hasta " + int(MIN_INC) + " min", money(vozMid), rng(voz[0], voz[1]));
+    b += fila("Tarifas de Meta (WhatsApp)" + OPC, recor
+      ? int(resv * 2) + " recordatorios y pedidos de reseña × ~$0,01"
+      : "Solo si Insurgentes decide enviar recordatorios o pedidos de reseña. Responder a quien escribe primero no tiene costo",
+      recor ? money(metaE1) : '<span class="na">No incluido</span>', recor ? rng(meta[0], meta[1]) : '<span class="na">No incluido</span>');
+    b += fila("IVA bancario de los proveedores (13%)" + EST, "Lo cobra el banco al pagar servicios digitales del exterior. En el 1 lo paga AxelSites; en el 2, el restaurante con su tarjeta", money(ivaBanco1), rng(ivaB[0], ivaB[1]));
+    b += grupo("AxelSites");
+    b += fila("Mantenimiento AxelSites", "El mismo servicio y el mismo precio en los dos escenarios. Detalle arriba, en cada opción", money(mant), money(mant));
+    b += fila("Cobertura de consumo", "Si un mes trae más conversaciones o llamadas de lo estimado (por ejemplo diciembre), en el 1 AxelSites paga la diferencia hasta el tope estimado. En el 2 la paga el restaurante", money(cob1), NA);
+    if (adm1 >= 0.005) b += fila("Gestión de proveedores y monto fijo", "AxelSites paga y concilia cada mes los 3 o 4 proveedores del exterior con su tarjeta, asume el tipo de cambio y emite una sola factura fija en colones o dólares. Es el servicio que en el 2 hace el restaurante por su cuenta", money(adm1), NA);
+    b += fila("Subtotal · sin IVA", "", money(base + metaE1), rng(mant + prov[0] + ivaB[0], mant + prov[1] + ivaB[1]), "sum");
+    if (on.voz && extraMin > 0) b += fila("Minutos de voz extra", int(extraMin) + " min por encima de los " + int(MIN_INC) + " incluidos × $0,20. En el 2 ya van en la línea de voz", money(extra), NA);
+    b += fila("IVA 13% de la factura de AxelSites", "En el 1, sobre todo el plan. En el 2, solo sobre el mantenimiento", money(e1 * IVA), money(mant * IVA));
+    b += fila("Total al mes", "", money(e1 * (1 + IVA)), rng(e2[0], e2[1]), "total");
+    b += fila("Cómo se paga", "", "Una factura de AxelSites", money(mantIva) + " a AxelSites<br>+ proveedores con tarjeta", "");
+    $("cmpBody").innerHTML = b;
     var dif = e1 * (1 + IVA) - e2[1];
-    $("e1Cmp").innerHTML = "<b>Comparado con el escenario 2:</b> en su mes más caro el escenario 2 sale en " + money(e2[1]) +
+    $("e1Cmp").innerHTML = "<b>En resumen:</b> en su mes más caro el escenario 2 sale en " + money(e2[1]) +
       ". El escenario 1 cuesta " + money(e1 * (1 + IVA)) + (dif >= 0 ? ", es decir " + money(dif) + " más al mes, a cambio de un monto fijo, una sola factura y ninguna tarjeta registrada en el exterior." : ".");
 
     // OpenTable
