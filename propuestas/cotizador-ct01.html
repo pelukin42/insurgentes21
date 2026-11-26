@@ -211,7 +211,10 @@ body.ver-interno .interno { display: block; }
           <tr><td>IA del agente de texto <span class="est">estimado</span><span class="d" id="e1IaD"></span></td><td class="num" id="e1Ia"></td></tr>
           <tr id="e1MetaRow"><td>Tarifas de Meta (WhatsApp) <span class="est">opcional</span><span class="d" id="e1MetaD"></span></td><td class="num" id="e1Meta"></td></tr>
           <tr class="solo-voz"><td>Voz, hasta 1.800 min incluidos <span class="est">estimado</span><span class="d" id="e1VozD"></span></td><td class="num" id="e1Voz"></td></tr>
-          <tr><td>Mantenimiento, administración y soporte<span class="d">Servicios de mantenimiento detallados abajo, pago y gestión de los proveedores del exterior, tipo de cambio y cobertura de meses fuertes como diciembre</span></td><td class="num" id="e1Res"></td></tr>
+          <tr><td>Mantenimiento AxelSites<span class="d">El mismo servicio del escenario 2: <span id="e1MantIva"></span> con IVA. Detalle de lo que incluye, abajo</span></td><td class="num" id="e1Mant"></td></tr>
+          <tr><td>IVA bancario de los proveedores del exterior <span class="est">estimado</span><span class="d">El 13% que cobra el banco al pagar servicios digitales del exterior. En el escenario 2 lo paga el restaurante con su tarjeta</span></td><td class="num" id="e1IvaB"></td></tr>
+          <tr><td>Cobertura de consumo<span class="d">Si un mes trae más conversaciones o llamadas de lo estimado (por ejemplo diciembre), AxelSites absorbe la diferencia hasta el tope del rango estimado. El restaurante no paga de más</span></td><td class="num" id="e1Cob"></td></tr>
+          <tr id="e1AdmRow"><td>Administración y cuenta única<span class="d">Pagar y conciliar 3 o 4 proveedores del exterior con tarjeta de AxelSites, asumir el tipo de cambio, una sola factura al mes en colones o dólares y revisión del monto a los 3 meses</span></td><td class="num" id="e1Adm"></td></tr>
           <tr class="sum"><td>Plan todo incluido · sin IVA</td><td class="num" id="e1Base"></td></tr>
           <tr class="solo-voz" id="e1ExRow"><td>Minutos extra estimados <span class="d" id="e1ExD"></span></td><td class="num" id="e1Ex"></td></tr>
           <tr><td>IVA 13%</td><td class="num" id="e1Iva"></td></tr>
@@ -228,6 +231,7 @@ body.ver-interno .interno { display: block; }
 </ul></div>
         <ul class="pros"><li>Monto fijo y predecible, en colones o dólares.</li><li>No registran tarjetas en proveedores del exterior.</li><li>Mantenimiento, monitoreo, soporte y reporte mensual incluidos.</li></ul>
         <ul class="cons"><li class="solo-voz">Los minutos de voz por encima del plan se cobran a $0,20 + IVA cada uno.</li><li>El monto se revisa a los 3 meses con el volumen real medido.</li></ul>
+        <p class="est-note" id="e1Cmp"></p>
         <div class="interno" id="e1Int"></div>
         <button class="pick" type="button" data-pick="1">Elegir escenario 1</button>
       </article>
@@ -372,7 +376,17 @@ body.ver-interno .interno { display: block; }
     $("e1Ia").textContent = money(mid(ia));
     $("e1Meta").textContent = recor ? money(metaE1) : "No incluido";
     $("e1Voz").textContent = money(vozMid);
-    $("e1Res").textContent = money(resv1);
+    // Desglose de lo que no es proveedor: mantenimiento, IVA bancario, cobertura y administración.
+    var tope = FIJO[1] + ia[1] + vozInc * VOZ[1];
+    var ivaBanco1 = Math.min(resv1 - mant, tope * IVA);
+    var cob1 = Math.min(resv1 - mant - ivaBanco1, (FIJO[1] - mid(FIJO)) + (ia[1] - mid(ia)) + vozInc * (VOZ[1] - mid(VOZ)));
+    var adm1 = resv1 - mant - ivaBanco1 - cob1;
+    $("e1Mant").textContent = money(mant);
+    $("e1MantIva").textContent = money(mant * (1 + IVA));
+    $("e1IvaB").textContent = money(ivaBanco1);
+    $("e1Cob").textContent = money(cob1);
+    $("e1Adm").textContent = money(adm1);
+    $("e1AdmRow").hidden = adm1 < 0.005;
     var iaTxt = int(conv * 30) + " conversaciones al mes × $0,01–0,05 cada una";
     var metaTxt = recor
       ? int(resv * 2) + " recordatorios y pedidos de reseña × ~$0,01. Se suma solo porque se activaron los recordatorios"
@@ -404,6 +418,9 @@ body.ver-interno .interno { display: block; }
     $("e2IvaB").textContent = rng(ivaB[0], ivaB[1]);
     var e2 = [mantIva + prov[0] + ivaB[0], mantIva + prov[1] + ivaB[1]];
     $("e2Rng").textContent = rng(e2[0], e2[1]);
+    var dif = e1 * (1 + IVA) - e2[1];
+    $("e1Cmp").innerHTML = "<b>Comparado con el escenario 2:</b> en su mes más caro el escenario 2 sale en " + money(e2[1]) +
+      ". El escenario 1 cuesta " + money(e1 * (1 + IVA)) + (dif >= 0 ? ", es decir " + money(dif) + " más al mes, a cambio de un monto fijo, una sola factura y ninguna tarjeta registrada en el exterior." : ".");
 
     // OpenTable
     var ot = parseFloat($("ot").value);
