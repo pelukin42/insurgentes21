@@ -151,6 +151,8 @@ body.ver-interno .interno { display: block; }
   .tbl tr.off { display: none; }
   .aviso { break-inside: avoid; }
 }
+  s.antes{color:#9a8f80;font-weight:400;margin-right:4px}
+  .promo{color:#2f7d4f;font-weight:600}
 </style>
 </head>
 <body>
@@ -181,20 +183,21 @@ body.ver-interno .interno { display: block; }
     <table class="tbl" id="tblInst">
       <thead><tr><th>Módulo</th><th>Monto</th></tr></thead>
       <tbody>
-        <tr data-m="sitio"><td><label class="chk"><input type="checkbox" id="m-sitio" checked><span><b>Sitio web de experiencia</b><span class="d">Ya desarrollado y en revisión en insurgentes21.netlify.app. Bilingüe, carta completa, eventos, reseñas y estadísticas. Dominio insurgentes21.com del restaurante.</span></span></label></td><td class="num" data-v="680"></td></tr>
-        <tr data-m="crm"><td><span class="chk"><span><b>CRM omnicanal + agente de texto con IA</b><span class="fixed-tag">base</span><span class="d">Servidor propio, bandeja única, WhatsApp con el mismo número, Instagram, Messenger, chat web y correo. Asistente entrenado con la carta y las políticas de la casa.</span></span></span></td><td class="num" data-v="1000"></td></tr>
-        <tr data-m="voz"><td><label class="chk"><input type="checkbox" id="m-voz" checked><span><b>Agente de voz</b><span class="d">Atiende llamadas en español e inglés, responde dudas, toma reservas y pasa la llamada a una persona cuando hace falta.</span></span></label></td><td class="num" data-v="600"></td></tr>
-        <tr data-m="res"><td><label class="chk"><input type="checkbox" id="m-res" checked><span><b>Sistema propio de reservas</b><span class="d">Plano de mesas y turnos, panel para la recepción, confirmación por WhatsApp, recordatorio opcional (con costo de Meta, ver abajo), lista de espera, registro de no-shows y botón de reservar en el sitio.</span></span></label></td><td class="num" data-v="1200"></td></tr>
-        <tr data-m="int"><td><span class="chk"><span><b>Integración entre sistemas</b><span class="d">Los agentes de voz y de texto reservan directo en el sistema propio y todo queda en el historial del cliente.</span></span></span></td><td class="num" data-v="200"></td></tr>
+        <tr data-m="sitio"><td><label class="chk"><input type="checkbox" id="m-sitio" checked><span><b>Sitio web de experiencia</b><span class="d">Ya desarrollado y en revisión en insurgentes21.netlify.app. Bilingüe, carta completa, eventos, reseñas y estadísticas. Dominio insurgentes21.com del restaurante.<span class="d promo">Precio rebajado en esta revisión.</span></span></span></label></td><td class="num" data-v="680"></td></tr>
+        <tr data-m="crm"><td><span class="chk"><span><b>CRM omnicanal + agente de texto con IA</b><span class="fixed-tag">base</span><span class="d">Servidor propio, bandeja única, WhatsApp con el mismo número, Instagram, Messenger, chat web y correo. Asistente entrenado con la carta y las políticas de la casa.<span class="d promo">Precio rebajado en esta revisión.</span></span></span></span></td><td class="num" data-v="1000"></td></tr>
+        <tr data-m="voz"><td><label class="chk"><input type="checkbox" id="m-voz" checked><span><b>Agente de voz</b><span class="d">Atiende llamadas en español e inglés, responde dudas, toma reservas y pasa la llamada a una persona cuando hace falta.<span class="d promo">Instalación sin costo: cortesía de AxelSites.</span></span></span></label></td><td class="num" data-v="600"></td></tr>
+        <tr data-m="res"><td><label class="chk"><input type="checkbox" id="m-res" checked><span><b>Sistema propio de reservas</b><span class="d">Plano de mesas y turnos, panel para la recepción, confirmación por WhatsApp, recordatorio opcional (con costo de Meta, ver abajo), lista de espera, registro de no-shows y botón de reservar en el sitio.<span class="d promo">Precio especial por ser los primeros en usar AxelSites CRM de hostelería.</span></span></span></label></td><td class="num" data-v="1200"></td></tr>
+        <tr data-m="int"><td><span class="chk"><span><b>Integración entre sistemas</b><span class="d">Los agentes de voz y de texto reservan directo en el sistema propio y todo queda en el historial del cliente.<span class="d promo">Incluida sin costo.</span></span></span></span></td><td class="num" data-v="200"></td></tr>
         <tr class="sum"><td>Suma de módulos</td><td class="num" id="iLista"></td></tr>
-        <tr class="disc" id="rowDesc"><td>Descuento por paquete completo</td><td class="num" id="iDesc"></td></tr>
+        <tr class="disc" id="rowDesc" hidden><td>Descuento</td><td class="num" id="iDesc"></td></tr>
         <tr class="sum"><td>Subtotal · sin IVA</td><td class="num" id="iSub"></td></tr>
         <tr><td>IVA 13%</td><td class="num" id="iIva"></td></tr>
         <tr class="total"><td>Total instalación</td><td class="num" id="iTot"></td></tr>
       </tbody>
     </table>
     </div>
-    <p class="note no-print" style="margin-top:10px">Desmarcá un módulo para ver el precio sin él. El descuento aplica solo con el paquete completo.</p>
+    <p class="note" style="margin-top:10px">Revisión 2: con todos los módulos la instalación baja de $3.500 + IVA ($3.955,00) a $1.700 + IVA ($1.921,00).</p>
+    <p class="note no-print" style="margin-top:10px">Desmarcá un módulo para ver el precio sin él.</p>
   </section>
 
   <!-- SUPUESTOS -->
@@ -294,7 +297,7 @@ body.ver-interno .interno { display: block; }
 
   <footer class="foot">
     <div class="note"><b style="color:var(--ink)">AxelSites</b> · Desarrollo y diseño web · Costa Rica<br>axelsites.com · WhatsApp +506 6316-4765</div>
-    <div class="note" style="text-align:right">Ref. CT-01 · rev. 1<br>Sitio, CRM, agentes y reservas</div>
+    <div class="note" style="text-align:right">Ref. CT-01 · rev. 2<br>Sitio, CRM, agentes y reservas</div>
     <label class="int-toggle"><input type="checkbox" id="verInt"> Vista interna (no se imprime)</label>
   </footer>
 </div>
@@ -302,8 +305,8 @@ body.ver-interno .interno { display: block; }
 <script>
 (function () {
   var IVA = 0.13;
-  var PRECIO = { sitio: 680, crm: 1000, voz: 600, res: 1200, int: 200 };
-  var PAQUETE = 3500;               // precio con todo marcado
+  var PRECIO = { sitio: 300, crm: 800, voz: 0, res: 600, int: 0 };
+  var ANTES = { sitio: 680, crm: 1000, voz: 600, res: 1200, int: 200 }; // rev. 1: $3.500 + IVA con paquete
   var MIN_INC = 1800, MIN_EXTRA = 0.20;
   var VOZ = [0.10, 0.15], IA = [0.01, 0.05], META = [0.008, 0.0125], FIJO = [40, 85];
 
@@ -328,14 +331,14 @@ body.ver-interno .interno { display: block; }
     var lista = 0;
     document.querySelectorAll("#tblInst tr[data-m]").forEach(function (tr) {
       var m = tr.dataset.m, v = PRECIO[m], td = tr.querySelector("[data-v]");
-      td.textContent = money(v);
+      td.innerHTML = (ANTES[m] > v ? '<s class="antes">' + money(ANTES[m]) + '</s> ' : '') + (v ? money(v) : "Sin costo");
       tr.classList.toggle("off", !on[m]);
       if (on[m]) lista += v;
     });
-    var desc = full ? lista - PAQUETE : 0;
+    var desc = 0;
     var sub = lista - desc;
     $("iLista").textContent = money(lista);
-    $("rowDesc").hidden = !full;
+    $("rowDesc").hidden = true;
     $("iDesc").textContent = money(-desc);
     $("iSub").textContent = money(sub);
     $("iIva").textContent = money(sub * IVA);
