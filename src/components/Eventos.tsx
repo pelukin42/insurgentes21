@@ -89,8 +89,7 @@ export default function Eventos() {
               {t(["Cumpleaños, cenas de empresa, lanzamientos y celebraciones. Armamos un menú a la medida, con maridaje de nuestra cava y coctelería de autor.",
                 "Birthdays, company dinners, launches and celebrations. We build a tailored menu, paired from our cellar and our signature bar."])}
             </p>
-            <a href={`${INFO.whatsapp}?text=${encodeURIComponent(t(["Hola, quiero cotizar un evento privado en Insurgentes 21.", "Hi, I'd like a quote for a private event at Insurgentes 21."]))}`}
-              target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 mt-7 px-7 py-3 bg-[#EF5C32] text-white font-manrope text-sm tracking-wide hover:bg-[#d84a22] transition-colors">
+            <a href="#cotizar" className="inline-flex items-center gap-2 mt-7 px-7 py-3 bg-[#EF5C32] text-white font-manrope text-sm tracking-wide hover:bg-[#d84a22] transition-colors">
               {t(["Cotizá tu evento", "Get a quote"])} <ArrowUpRight className="w-4 h-4" />
             </a>
           </div>

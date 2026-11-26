@@ -18,7 +18,7 @@ export function track(event: string, params: Record<string, string | number> = {
 
 /** Link → event name. Order matters (first match wins). */
 const classify = (href: string): string | null => {
-  if (href.includes("opentable.")) return "reserva_opentable";
+  if (href.endsWith("#reservar")) return "reserva_click";
   if (href.includes("wa.me/")) return href.includes("text=") ? "cotizar_evento" : "whatsapp";
   if (href.startsWith("tel:")) return "llamada";
   if (href.endsWith(".pdf")) return "menu_pdf";

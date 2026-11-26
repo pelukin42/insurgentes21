@@ -41,7 +41,6 @@ export default function Experience() {
           ))}
         </div>
         <div className="mt-14 flex flex-wrap justify-center gap-x-10 gap-y-4 px-6 text-center">
-          <p className="font-body text-[11px] tracking-[0.3em] uppercase text-white/70"><span className="font-accent text-[28px] normal-case tracking-normal text-white mr-2">4,7 ★</span>{t(["OpenTable · 147 reseñas", "OpenTable · 147 reviews"])}</p>
           <p className="font-body text-[11px] tracking-[0.3em] uppercase text-white/70 self-center">{t(["Terraza · Chef's table · Parqueo privado", "Terrace · Chef's table · Private parking"])}</p>
         </div>
       </div>
