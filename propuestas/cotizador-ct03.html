@@ -183,7 +183,7 @@ body.ver-interno .interno { display: block; }
       <div><b>27.11.2026</b> · Vigencia: 27.12.2026</div>
     </div>
   </header>
-  <p class="kick">Propuesta revisada · instalación más baja, pago por consumo</p>
+  <p class="kick">Oferta final · instalación más baja, pago por consumo</p>
   <h1>Tres formas de arrancar con Sofía</h1>
   <p class="lead" style="margin-top:18px">Después de la reunión preparamos tres escenarios con una instalación más baja. En los tres el mes se paga <b>por consumo</b>: una cuota fija y pequeña a AxelSites, y la inteligencia artificial y los demás proveedores según lo que realmente se use.</p>
 
@@ -257,6 +257,27 @@ body.ver-interno .interno { display: block; }
   </section>
 
   <section>
+    <div class="sec-head"><h2>Condiciones de la oferta</h2><span class="label">Cliente fundador</span></div>
+    <div class="two">
+      <div class="box"><span class="label">Compromiso de 12 meses</span>
+        <p style="margin-top:8px;font-size:14.5px">El precio de instalación de esta oferta aplica con un <b>compromiso de 12 meses</b> de mensualidad, contados desde que Sofía empieza a atender. Si el restaurante prefiere no comprometerse, la instalación se cobra a <b>precio de lista</b> (<span class="num" id="cLista"></span> + IVA) y la mensualidad se puede cancelar cuando quieran, con 30 días de aviso.</p>
+        <p style="font-size:14.5px;margin:0">Después de los 12 meses la mensualidad sigue mes a mes, sin plazo.</p></div>
+      <div class="box"><span class="label">Precio de cliente fundador</span>
+        <p style="margin-top:8px;font-size:14.5px">Insurgentes 21 es de los primeros restaurantes en AxelSites CRM de hostelería. A cambio del precio especial, pedimos:</p>
+        <ul class="si"><li>Un testimonio breve cuando el sistema lleve unos meses funcionando.</li><li>Permiso para mostrar el proyecto como caso de éxito (sin datos de clientes).</li><li>Una reunión mensual de 30 minutos los primeros 3 meses para mejorar a Sofía juntos.</li></ul></div>
+    </div>
+    <div class="box" style="margin-top:20px"><span class="label">Cómo funciona el pago por consumo</span>
+      <ul class="si">
+        <li><b>A AxelSites</b>, una factura fija al mes: mantenimiento, licencia de la plataforma y cuota del servidor compartido.</li>
+        <li><b>A los proveedores</b>, con la tarjeta del restaurante y a su nombre: la IA (por conversación), Meta (solo si envían recordatorios) y, en el escenario A, la voz (por minuto). Si un mes hay menos movimiento, se paga menos.</li>
+        <li>A los 3 meses revisamos juntos el consumo real medido por el CRM y ajustamos la estimación.</li>
+        <li><b>Cambiar de escenario</b>: se puede subir de C a B o a A en cualquier momento pagando solo la diferencia de instalación.</li>
+        <li>Los datos, las conversaciones y los contactos son del restaurante y se pueden exportar cuando lo pidan.</li>
+        <li>Oferta válida hasta el 27.12.2026. Montos en dólares; se puede pagar en colones al tipo de cambio del día.</li>
+      </ul></div>
+  </section>
+
+  <section>
     <div class="sec-head"><h2>Forma de pago de la instalación</h2></div>
     <div class="steps" id="steps"></div>
     <p class="note" style="margin-top:10px">Montos en dólares. Se puede pagar el equivalente en colones al tipo de cambio del día. El sitio, los datos y las conversaciones son del restaurante, y se pueden exportar cuando lo pidan.</p>
@@ -269,7 +290,7 @@ body.ver-interno .interno { display: block; }
 
   <footer class="foot">
     <div class="note"><b style="color:var(--ink)">AxelSites</b> · Desarrollo y diseño web · Costa Rica<br>axelsites.com · WhatsApp +506 6316-4765</div>
-    <div class="note" style="text-align:right">Ref. CT-03 · rev. 2<br>CRM en servidor compartido · pago por consumo</div>
+    <div class="note" style="text-align:right">Ref. CT-03 · rev. 3 · oferta final<br>CRM en servidor compartido · pago por consumo</div>
   </footer>
 </div>
 
@@ -300,8 +321,8 @@ body.ver-interno .interno { display: block; }
       sub: "Todos los canales de texto",
       texto: "Sofía atiende en una sola bandeja todos los canales de texto y, para reservar, le envía al cliente el enlace de OpenTable, que se mantiene como hoy. Sin voz y sin sistema propio de reservas; se pueden sumar después pagando solo la diferencia.",
       modulos: [
-        { id: "sitio", t: "Sitio web de experiencia", d: "Ya desarrollado y en revisión en insurgentes21.netlify.app. Bilingüe, carta completa, eventos, reseñas y estadísticas.", v: 300, opc: true },
-        { id: "crm", t: "CRM omnicanal + agente de texto con IA", d: "Instalación propia en el servidor compartido. Bandeja única con WhatsApp (mismo número), Instagram, Messenger, chat web y correo. Sofía entrenada con la carta, horarios, eventos y políticas.", v: 500 },
+        { id: "sitio", t: "Sitio web de experiencia", d: "Ya desarrollado y en revisión en insurgentes21.netlify.app. Bilingüe, carta completa, eventos, reseñas y estadísticas.", v: 300, antes: 680, opc: true, nota: "Ya está hecho: solo faltan los ajustes finales y publicarlo en su dominio." },
+        { id: "crm", t: "CRM omnicanal + agente de texto con IA", d: "Instalación propia en el servidor compartido. Bandeja única con WhatsApp (mismo número), Instagram, Messenger, chat web y correo. Sofía entrenada con la carta, horarios, eventos y políticas.", v: 500, antes: 1000, nota: "Servidor compartido y precio de cliente fundador." },
         { id: "ot", t: "Reservas por OpenTable", d: "Sofía guía al cliente y le envía el enlace de reserva de OpenTable, que se mantiene como hoy.", v: 0, gratis: true }
       ],
       mant: 200, lic: 80, server: 25,
@@ -314,8 +335,8 @@ body.ver-interno .interno { display: block; }
       sub: "Lo esencial para empezar",
       texto: "Sofía atiende solo los dos canales que más mueven reservas y cotizaciones: WhatsApp y el chat de la página. Es la forma más económica de empezar, y se puede pasar a B o a A cuando lo decidan pagando solo la diferencia.",
       modulos: [
-        { id: "sitio", t: "Sitio web de experiencia", d: "Ya desarrollado y en revisión en insurgentes21.netlify.app. Bilingüe, carta completa, eventos, reseñas y estadísticas.", v: 300, opc: true },
-        { id: "crm", t: "CRM WhatsApp + chat web + agente de texto con IA", d: "Instalación propia en el servidor compartido. WhatsApp con el mismo número y chat en la página. Sofía entrenada con la carta, horarios, eventos y políticas.", v: 300 },
+        { id: "sitio", t: "Sitio web de experiencia", d: "Ya desarrollado y en revisión en insurgentes21.netlify.app. Bilingüe, carta completa, eventos, reseñas y estadísticas.", v: 300, antes: 680, opc: true, nota: "Ya está hecho: solo faltan los ajustes finales y publicarlo en su dominio." },
+        { id: "crm", t: "CRM WhatsApp + chat web + agente de texto con IA", d: "Instalación propia en el servidor compartido. WhatsApp con el mismo número y chat en la página. Sofía entrenada con la carta, horarios, eventos y políticas.", v: 300, antes: 600, nota: "Servidor compartido y precio de cliente fundador." },
         { id: "ot", t: "Reservas por OpenTable", d: "Sofía guía al cliente y le envía el enlace de reserva de OpenTable, que se mantiene como hoy.", v: 0, gratis: true }
       ],
       mant: 200, lic: 60, server: 15,
@@ -335,6 +356,7 @@ body.ver-interno .interno { display: block; }
   var esc = ESC[q.get("esc")] ? q.get("esc") : "A";
   var off = {};                        // módulos opcionales desmarcados, por escenario
 
+  function lista(k) { var t = 0; ESC[k].modulos.forEach(function (m) { if (!off[k + m.id]) t += (m.antes || m.v); }); if (k === "A" && t === 3680) t = 3500; return t; }  // paquete completo de la cotización original
   function instal(k) { var s = 0; ESC[k].modulos.forEach(function (m) { if (!off[k + m.id]) s += m.v; }); return s; }
   function mes(k, conv, recor, resv) {
     var e = ESC[k], fijo = (e.mant + e.lic + e.server) * (1 + IVA);
@@ -351,6 +373,7 @@ body.ver-interno .interno { display: block; }
     $("lSi").innerHTML = e.si.map(function (x) { return "<li>" + x + "</li>"; }).join("");
     $("lNo").innerHTML = e.no.map(function (x) { return "<li>" + x + "</li>"; }).join("");
     $("migr").textContent = money(MIGRAR, 0);
+    $("cLista").textContent = money(lista(esc));
     $("iSubt").textContent = e.sub;
 
     var h = "";
@@ -361,7 +384,7 @@ body.ver-interno .interno { display: block; }
       h += '<tr' + (apagado ? ' class="off"' : "") + '><td>' + chk + "<b>" + m.t + "</b>" + (m.opc ? '<span class="fixed-tag">opcional</span>' : "") + '<span class="d">' + m.d + "</span>" + fin + (m.nota ? '<span class="d promo">' + m.nota + "</span>" : "") + '</td><td class="num">' + (m.antes ? '<s class="antes">' + money(m.antes) + "</s> " : "") + (m.v ? money(m.v) : "Sin costo") + "</td></tr>";
     });
     var sub = instal(esc);
-    if (esc === "A") h += '<tr><td colspan="2" class="note" style="padding-top:12px;text-align:left">En la cotización original los mismos módulos sumaban $3.500 + IVA ($3.955). La diferencia no desaparece: una parte se compensa con el servidor compartido y el precio de cliente fundador, y el resto se reparte en la licencia mensual de la plataforma.</td></tr>';
+    h += '<tr><td colspan="2" class="note" style="padding-top:12px;text-align:left">Precio con compromiso de 12 meses. Sin compromiso, la instalación de este escenario es de ' + money(lista(esc)) + ' + IVA (precio de lista). La diferencia no desaparece: una parte se compensa con el servidor compartido y el precio de cliente fundador, y el resto se reparte en la licencia mensual de la plataforma.</td></tr>';
     h += '<tr class="sum"><td>Subtotal · sin IVA</td><td class="num">' + money(sub) + "</td></tr>";
     h += '<tr><td>IVA 13%</td><td class="num">' + money(sub * IVA) + "</td></tr>";
     h += '<tr class="total"><td>Total instalación</td><td class="num">' + money(sub * (1 + IVA)) + "</td></tr>";
@@ -409,6 +432,8 @@ body.ver-interno .interno { display: block; }
       r("Instagram, Messenger y correo", function (x) { return x.canales.indexOf("Instagram") >= 0 ? "Sí" : "—"; }) +
       r("Agente de voz", function (x) { return x.vozTxt; }) + r("Reservas", function (x) { return x.reservas; }) +
       r("Usuarios del equipo", function (x) { return x.usuarios; }) + r("Servidor", function () { return "Compartido"; }) +
+      r("Instalación de lista, sin compromiso", function (x, mm, k) { return "<s>" + money(lista(k)) + "</s> + IVA"; }) +
+      r("<b>Instalación con compromiso, sin IVA</b>", function (x, mm, k) { return money(instal(k)); }, "hl") +
       r("<b>Instalación con IVA</b>", function (x, mm, k) { return money(instal(k) * (1 + IVA)); }, "hl") +
       r("<b>Fijo a AxelSites con IVA</b>", function (x, mm) { return money(mm.fijo); }, "hl") +
       r("<b>Total al mes estimado</b>", function (x, mm) { return rng(mm.tot[0], mm.tot[1]); }, "hl");
@@ -417,7 +442,7 @@ body.ver-interno .interno { display: block; }
     var x = sub * (1 + IVA) / 2;
     $("steps").innerHTML = row("Al aprobar", "50% para iniciar la instalación", x) + row("Al activar", "50% contra Sofía atendiendo en automático en " + e.canales, x) +
       '<div><span class="when">Cada mes</span><span>Desde la activación: fijo a AxelSites + proveedores por consumo</span><span class="num">' + money(m.fijo) + " + " + rng(m.prov[0], m.prov[1]) + "</span></div>";
-    document.title = "Cotizacion-CT03-Insurgentes21-Escenario" + esc;
+    document.title = "Oferta-final-CT03-Insurgentes21-Escenario" + esc;
   }
   function row(w, t, v) { return '<div><span class="when">' + w + "</span><span>" + t + '</span><span class="num">' + money(v) + "</span></div>"; }
 
