@@ -284,10 +284,11 @@ body.ver-interno .interno { display: block; }
       sub: "Todos los canales + sistema propio de reservas",
       texto: "Sofía atiende en una sola bandeja todos los canales, reserva directo en el sistema propio de Insurgentes 21 y puede contestar el teléfono. Es la propuesta completa, en el servidor compartido de AxelSites y con la voz por consumo.",
       modulos: [
-        { id: "sitio", t: "Sitio web de experiencia", d: "Ya desarrollado y en revisión en insurgentes21.netlify.app. Bilingüe, carta completa, eventos, reseñas y estadísticas.", v: 300, opc: true },
-        { id: "crm", t: "CRM omnicanal + agente de texto con IA", d: "Instalación propia en el servidor compartido. Bandeja única con WhatsApp (mismo número), Instagram, Messenger, chat web y correo. Sofía entrenada con la carta, horarios, eventos y políticas.", v: 500 },
-        { id: "res", t: "Sistema propio de reservas", d: "Plano de mesas y turnos, panel para la recepción, confirmación por WhatsApp, lista de espera, no-shows y botón de reservar en el sitio. Sofía reserva directo.", v: 400 },
-        { id: "voz", t: "Agente de voz", d: "Se deja configurado y listo para activarse. Los minutos y el número se pagan aparte, por consumo y a nombre del restaurante.", v: 0, opc: true, gratis: true }
+        { id: "sitio", t: "Sitio web de experiencia", d: "Ya desarrollado y en revisión en insurgentes21.netlify.app. Bilingüe, carta completa, eventos, reseñas y estadísticas.", v: 300, antes: 680, opc: true, nota: "Ya está hecho: solo faltan los ajustes finales y publicarlo en su dominio." },
+        { id: "crm", t: "CRM omnicanal + agente de texto con IA", d: "Instalación propia en el servidor compartido. Bandeja única con WhatsApp (mismo número), Instagram, Messenger, chat web y correo. Sofía entrenada con la carta, horarios, eventos y políticas.", v: 800, antes: 1000, nota: "Servidor compartido: no hay que montar, asegurar ni respaldar una máquina solo para Insurgentes." },
+        { id: "res", t: "Sistema propio de reservas", d: "Plano de mesas y turnos, panel para la recepción, confirmación por WhatsApp, lista de espera, no-shows y botón de reservar en el sitio. Sofía reserva directo.", v: 600, antes: 1200, nota: "Precio de cliente fundador: por ser los primeros en usar AxelSites CRM de hostelería." },
+        { id: "voz", t: "Agente de voz", d: "Configuración del agente y su guion, partiendo de lo que ya aprendió Sofía en el chat. Los minutos y el número se pagan aparte, por consumo y a nombre del restaurante.", v: 300, antes: 600, opc: true, nota: "La cuenta del proveedor de voz queda a nombre del restaurante." },
+        { id: "int", t: "Integración entre sistemas", d: "Voz, chat y reservas en una sola plataforma: todo queda en el historial del cliente.", v: 0, antes: 200, gratis: true, nota: "Incluida: al estar todo en una sola plataforma, la conexión ya viene hecha." }
       ],
       mant: 200, lic: 95, server: 30, voz: true,
       si: ["Bandeja única con WhatsApp, Instagram, Messenger, chat web y correo.", "Sistema propio de reservas: Sofía reserva directo, sin pasar por OpenTable.", "Agente de voz listo para encender cuando quieran.", "Hasta 5 usuarios del equipo en el panel.", "Mantenimiento: revisión y corrección de respuestas cada semana, cambios de carta y horarios, soporte por WhatsApp y reporte mensual."],
@@ -357,9 +358,10 @@ body.ver-interno .interno { display: block; }
       var apagado = !!off[esc + m.id];
       var chk = m.opc && !m.gratis ? '<label class="chk"><input type="checkbox" data-m="' + m.id + '"' + (apagado ? "" : " checked") + '><span>' : '<span class="chk"><span>';
       var fin = m.opc && !m.gratis ? "</span></label>" : "</span></span>";
-      h += '<tr' + (apagado ? ' class="off"' : "") + '><td>' + chk + "<b>" + m.t + "</b>" + (m.opc ? '<span class="fixed-tag">opcional</span>' : "") + '<span class="d">' + m.d + "</span>" + fin + '</td><td class="num">' + (m.v ? money(m.v) : "Sin costo") + "</td></tr>";
+      h += '<tr' + (apagado ? ' class="off"' : "") + '><td>' + chk + "<b>" + m.t + "</b>" + (m.opc ? '<span class="fixed-tag">opcional</span>' : "") + '<span class="d">' + m.d + "</span>" + fin + (m.nota ? '<span class="d promo">' + m.nota + "</span>" : "") + '</td><td class="num">' + (m.antes ? '<s class="antes">' + money(m.antes) + "</s> " : "") + (m.v ? money(m.v) : "Sin costo") + "</td></tr>";
     });
     var sub = instal(esc);
+    if (esc === "A") h += '<tr><td colspan="2" class="note" style="padding-top:12px;text-align:left">En la cotización original los mismos módulos sumaban $3.500 + IVA ($3.955). La diferencia no desaparece: una parte se compensa con el servidor compartido y el precio de cliente fundador, y el resto se reparte en la licencia mensual de la plataforma.</td></tr>';
     h += '<tr class="sum"><td>Subtotal · sin IVA</td><td class="num">' + money(sub) + "</td></tr>";
     h += '<tr><td>IVA 13%</td><td class="num">' + money(sub * IVA) + "</td></tr>";
     h += '<tr class="total"><td>Total instalación</td><td class="num">' + money(sub * (1 + IVA)) + "</td></tr>";
